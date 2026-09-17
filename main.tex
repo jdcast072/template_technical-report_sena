@@ -1,10 +1,10 @@
-\documentclass[a4paper,12pt,hidelinks]{apa7}
+\documentclass[12pt,letterpaper,oneside,hidelinks]{report}
 
 % PAQUETES
 \input{config/packages.tex}
 
 % METADATOS
-\input{config/metadata.tex}
+%\input{config/metadata.tex}
 
 % CONFIGURACIONES
 \input{config/settings.tex}
@@ -13,13 +13,11 @@
 % PORTADA
 \input{frontmatter/cover.tex}
 
-% Evita que el encabezado de apa7 intente expandir referencias internas
-% inexistentes al cambiar de página después de la portada.
-\pagestyle{plain}
-
 \tableofcontents
 
 \newpage
+%\layout Usar el paquete para mirar el espacio de margen 
+
 
 \input{content/01-introduccion.tex}
 \input{content/02-marco-teorico.tex}
@@ -27,9 +25,6 @@
 \input{content/04-conclusiones.tex}
 
 % Referencias
-\printbibliography[
-    heading=bibintoc,
-    title={Referencias}
-]
+%\printbibliography[heading=bibintoc,title={Referencias}]
 
 \end{document}
