@@ -1,17 +1,8 @@
 # Plantilla LaTeX para informes técnicos
 
-Plantilla reutilizable para elaborar informes técnicos y documentos académicos con LaTeX. El proyecto utiliza la clase estándar `report`. La configuración, el contenido, la portada, los recursos y la bibliografía se mantienen separados para facilitar su mantenimiento.
+Plantilla reutilizable para elaborar informes técnicos con LaTeX. El proyecto utiliza la clase estándar `report` y separa la configuración, los elementos preliminares, el contenido, los recursos y la bibliografía para facilitar su mantenimiento.
 
-## Características
-
-- Documento `report` en tamaño carta, 12 puntos y una sola cara.
-- Idioma español y codificación UTF-8.
-- Márgenes configurados con `geometry`.
-- Índice general generado automáticamente.
-- Citas parentéticas con `\parencite{clave}`.
-- Bibliografía procesada con `biblatex` y `biber`.
-- Portada personalizable con TikZ.
-- Tablas con `booktabs` y títulos configurables con `caption`.
+La plantilla se ajustó desde una organización orientada a trabajos en formato APA hacia un informe técnico: la portada, la hoja de datos, la jerarquía de capítulos, los colores institucionales y el formato de tablas responden ahora a la estructura del informe, no a una norma APA.
 
 ## Estructura del proyecto
 
@@ -23,8 +14,7 @@ Plantilla reutilizable para elaborar informes técnicos y documentos académicos
 │   └── tables/
 │       ├── table-01.tex
 │       └── table-02.tex
-├── bibliography/
-│   └── references.bib
+├── bibliography/references.bib
 ├── build/
 ├── config/
 │   ├── metadata.tex
@@ -42,17 +32,15 @@ Plantilla reutilizable para elaborar informes técnicos y documentos académicos
 │   └── cover.tex
 ├── main.tex
 └── scripts/
-    ├── create-content.ps1
-    └── create-content.sh
+  ├── create-content.ps1
+  └── create-content.sh
 ```
 
-`build/`, `main.pdf` y los archivos auxiliares son resultados de compilación. No deben editarse manualmente.
+`build/`, el PDF y los archivos auxiliares son resultados de compilación. No deben editarse manualmente.
 
-## Archivo principal
+## Flujo de `main.tex`
 
-### `main.tex`
-
-Es el punto de entrada del informe. Carga los paquetes, metadatos y ajustes, incorpora la portada y el contenido, genera el índice y muestra las referencias.
+`main.tex` es el punto de entrada. Carga los paquetes, metadatos y ajustes; incorpora la portada, el índice, los capítulos del informe y la bibliografía.
 
 ```latex
 \documentclass[12pt,letterpaper,oneside]{report}
@@ -63,7 +51,7 @@ Es el punto de entrada del informe. Carga los paquetes, metadatos y ajustes, inc
 
 \begin{document}
 \input{frontmatter/cover.tex}
-\tableofcontents
+	ableofcontents
 
 \input{content/01-introduccion.tex}
 \input{content/02-marco-teorico.tex}
@@ -75,194 +63,136 @@ Es el punto de entrada del informe. Carga los paquetes, metadatos y ajustes, inc
 \end{document}
 ```
 
-### `\documentclass`
+La clase `report` permite organizar el documento mediante `\chapter`, `\section` y niveles inferiores. El orden de los archivos se controla desde los `\input` de `main.tex`.
 
-Comando fundamental en LaTeX que define la clase o tipo de documento global a utilizar, por ejemplo `report` o `memoir`, estableciendo las reglas de diseño predeterminadas. Esta plantilla utiliza `report`, que permite organizar el informe mediante capítulos y secciones.
+## Configuración del informe
 
-## Directorios y archivos
+### `config/packages.tex`
 
-### `config/`
+Centraliza los paquetes usados por el documento:
 
-Contiene la configuración global del informe.
+- `babel`, `inputenc` y `fontenc` configuran el idioma español y la codificación.
+- `geometry` establece tamaño carta y márgenes de 3 cm arriba y abajo, 4 cm a la izquierda y 2 cm a la derecha.
+- `graphicx` permite insertar imágenes.
+- `booktabs` proporciona líneas profesionales para tablas.
+- `caption` controla títulos de tablas y figuras.
+- `titlesec` y `tocloft` personalizan capítulos e índice.
+- `xcolor` y `tikz` construyen los elementos visuales de la portada.
+- `hyperref` y `bookmark` generan enlaces y marcadores del PDF sin recuadros visibles.
+- `biblatex` con `biber` administra las referencias almacenadas en `bibliography/references.bib`.
 
-- `metadata.tex`: datos variables como título, autor, institución, asignatura, docente y fecha.
-- `packages.tex`: paquetes, márgenes y configuración de citas y bibliografía.
-- `settings.tex`: colores, ajustes de TikZ, profundidad de secciones y formato del índice.
+La configuración de bibliografía es autor-año, útil para documentar las fuentes del informe técnico, pero el proyecto no se presenta como una plantilla APA. El estilo final debe seguir las instrucciones del curso o de la institución.
 
-### `frontmatter/`
+### `config/settings.tex`
 
-Contiene las partes preliminares del informe:
+Define el aspecto general del informe:
 
-- `cover.tex`: portada, logotipos, título, autor, institución y fecha.
-- `abstract.tex`: resumen, si el informe lo requiere.
-- `acknowledgments.tex`: agradecimientos, si el informe los requiere.
+- Ajusta la numeración de capítulos y la profundidad mostrada en el índice.
+- Centra y cambia el tamaño del título del índice.
+- Declara los colores institucionales `greenPrimary` y `greenLight` usados por la portada.
+- Configura el formato de las tablas mediante `\captionsetup[table]`.
 
-### `content/`
+El formato actual de los títulos de tabla coloca `Tabla X` en negrita, separa la etiqueta del título con un salto de línea, centra el bloque y muestra el texto del título en cursiva.
 
-Contiene el cuerpo del informe. Cada archivo se incorpora desde `main.tex` mediante `\input`. En la clase `report`, los capítulos se crean con `\chapter{Título}` y las divisiones internas con `\section{Título}`.
+### `config/metadata.tex`
 
-### `assets/`
+Contiene los metadatos digitales del PDF: título, autor, asunto, palabras clave y creador. Debe actualizarse cuando el informe cambie de tema o autoría.
 
-- `assets/images/`: logotipos, diagramas y otras imágenes.
-- `assets/tables/`: archivos `.tex` con tablas reutilizables.
+## Elementos preliminares
 
-### `bibliography/`
+### `frontmatter/cover.tex`
 
-Contiene `references.bib`, el archivo BibTeX que almacena las fuentes del informe.
+Construye la portada del informe técnico con TikZ. Incluye el logotipo SENA, las franjas verdes, el título de la evidencia, autor, programa, asignatura, docente y fecha. Los datos visibles de la portada se editan en este archivo.
 
-### `build/`
+### `content/04-hoja-datos.tex`
 
-Puede contener archivos `.aux`, `.bbl`, `.bcf`, `.blg`, `.log`, `.run.xml`, `.toc` y el PDF generado. Se recomienda excluir este directorio del control de versiones si se utiliza Git.
+Agrega el capítulo `Hoja de datos del documento` al índice y presenta la información técnica del informe en una tabla de dos columnas: título, autoría, fecha, palabras clave, resumen bibliográfico y lista de distribución.
 
-### `scripts/`
+Los archivos `frontmatter/abstract.tex` y `frontmatter/acknowledgments.tex` están disponibles para informes que requieran resumen o agradecimientos. Si se incorporan al PDF, deben añadirse mediante `\input` en `main.tex`.
 
-- `create-content.ps1`: crea archivos numerados desde PowerShell en Windows.
-- `create-content.sh`: crea archivos numerados desde Bash, Linux o WSL.
+## Contenido del informe
 
-## Configuración de página e índice
+Los archivos de `content/` contienen los capítulos que se cargan desde `main.tex`:
 
-- **`geometry`**: Paquete de LaTeX utilizado para controlar y personalizar con precisión milimétrica los márgenes del documento: superior, inferior, izquierda y derecha.
+- `01-introduccion.tex`: contexto, problema, objetivos y alcance.
+- `02-marco-teorico.tex`: conceptos y fundamentos del tema.
+- `03-desarrollo.tex`: procedimiento, análisis o solución técnica.
+- `04-hoja-datos.tex`: ficha técnica del documento.
+- `05-conclusiones.tex`: resultados, conclusiones y trabajo futuro.
 
-  ```latex
-  \usepackage[top=3cm,bottom=3cm,left=4cm,right=2cm]{geometry}
-  ```
+Se pueden agregar capítulos con nombres numerados de dos dígitos y registrar el nuevo `\input` en `main.tex`.
 
-- **`showframe`**: Paquete de diagnóstico que dibuja líneas y rectángulos delimitadores en el PDF para visualizar los bordes exactos del área de texto y los márgenes. Está comentado en la plantilla y puede activarse temporalmente:
+## Tablas con `caption`
 
-  ```latex
-  \usepackage{showframe}
-  ```
+Las tablas se guardan como archivos `.tex` reutilizables en `assets/tables/`. La numeración ya no se escribe manualmente: `\caption` genera automáticamente la etiqueta `Tabla X` y el título, mientras que `\label` permite referenciar la tabla desde el texto.
 
-- **`\tableofcontents`**: Comando encargado de generar automáticamente la tabla de contenido o índice general a partir de las secciones y capítulos del documento.
+La secuencia correcta es:
 
-- **`tocloft`**: Paquete avanzado para personalizar la apariencia, los espaciados y el diseño del índice general, de tablas o de figuras.
-
-## Bibliografía y citas
-
-- **`\printbibliography`**: Comando del paquete `biblatex` que imprime la lista consolidada de referencias bibliográficas al final del documento.
-
-- **`biblatex` / `biber`**: Sistema moderno de gestión de bibliografía en LaTeX, altamente compatible con la estructuración de citas bajo normas formales. `biblatex` configura las citas y `biber` procesa el archivo `.bib`.
-
-La plantilla configura el sistema en `config/packages.tex`:
-
-```latex
-\usepackage[
-    backend=biber,
-    style=authoryear,
-    language=spanish,
-    sorting=nyt,
-    maxcitenames=2
-]{biblatex}
-
-\addbibresource{bibliography/references.bib}
-```
-
-Agrega una fuente en `bibliography/references.bib`:
-
-```bibtex
-@book{ejemplo2026,
-    author    = {Apellido, Nombre},
-    title     = {Título del libro},
-    year      = {2026},
-    publisher = {Editorial}
-}
-```
-
-Después utiliza la clave en el contenido:
-
-```latex
-La documentación técnica debe identificar sus fuentes \parencite{ejemplo2026}.
-```
-
-También puedes usar una cita narrativa:
-
-```latex
-\textcite{ejemplo2026} explica el principio utilizado.
-```
-
-La clave utilizada en la cita debe coincidir exactamente con la clave del archivo `.bib`.
-
-## Entornos y estructura de tablas
-
-- **`\begin{table}` / `\end{table}`**: Entorno flotante que contiene la estructura de una tabla y permite que LaTeX la posicione de forma óptima en la página. `[htbp]` prioriza la ubicación aquí, arriba, abajo o en una página separada.
-- **`\centering`**: Comando de alineación que centra horizontalmente el elemento dentro de los márgenes de la página.
-- **`\caption`**: Comando oficial de LaTeX para titular y numerar automáticamente tablas y figuras, permitiendo su inclusión en los índices correspondientes.
-- **`\label`**: Etiqueta interna invisible que permite referencias cruzadas mediante `\ref{}`. Debe colocarse inmediatamente después de `\caption`.
-- **`\begin{tabular}` / `\end{tabular}`**: Entorno que define la cuadrícula interna de celdas. `{lccc}` crea cuatro columnas: izquierda, centrada, centrada y centrada.
-- **`\toprule`, `\midrule`, `\bottomrule`**: Líneas horizontales profesionales proporcionadas por `booktabs`, diseñadas para estructurar una tabla sin líneas verticales.
-- **`\cmidrule`**: Línea horizontal parcial que abarca un rango específico de columnas, por ejemplo `\cmidrule(lr){2-3}`.
-- **`\multicolumn`**: Comando que fusiona horizontalmente varias celdas contiguas en una sola.
-- **`&`**: Separador de celdas y columnas en las filas de la tabla.
-- **`\\`**: Comando que indica el fin de una fila y el salto a la siguiente.
-
-### Anatomía de una tabla
-
-En `\begin{tabular}{lccc}`, las cuatro letras definen cuatro columnas y su alineación. En `\cmidrule(lr){2-3}`, `(lr)` recorta los bordes izquierdo y derecho y `{2-3}` indica el rango de columnas. En `\multicolumn{2}{c}{Género}`, el primer argumento fusiona dos columnas, el segundo centra el texto y el tercero define el título.
-
-```latex
+```tex
 \begin{table}[htbp]
-    \centering
-    \caption{Ejemplo de tabla}
-    \label{tab:ejemplo}
-    \begin{tabular}{lccc}
-        \toprule
-        Categoría & A & B & Total \\
-        \midrule
-        Registro & 10 & 12 & 22 \\
-        \bottomrule
-    \end{tabular}
+  \centering
+  \caption{Título breve y descriptivo de la tabla}
+  \label{tab:identificador}
+  \begin{tabular}{lcc}
+    	\toprule
+    & Elemento & Valor 1 & Valor 2 \\
+    \midrule
+    Registro & 10 & 12 \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 ```
 
-La tabla se referencia así:
+`\label` debe ir inmediatamente después de `\caption`. Luego, la tabla se cita en el contenido con:
 
 ```latex
-Como se observa en la tabla \ref{tab:ejemplo}, los valores están organizados.
+Como se observa en la tabla \ref{tab:identificador}, los valores están organizados.
 ```
 
-## Ajuste de ancho y desbordamientos
+### Recursos utilizados en las tablas
 
-- **`p{ancho}`**: Parámetro de columna que fija un ancho específico, por ejemplo `p{4cm}`, y permite saltos de línea automáticos.
-- **`\resizebox{\textwidth}{!}{...}`**: Comando de `graphicx` que escala proporcionalmente una tabla para ocupar el ancho disponible.
-- **`\parbox`**: Caja de texto con ancho definido que permite agrupar párrafos largos dentro de una celda.
+- `table` es el contenedor flotante y `[htbp]` permite a LaTeX elegir una ubicación adecuada.
+- `tabular` define las columnas; por ejemplo, `{lccc}` crea una columna alineada a la izquierda y tres centradas.
+- `booktabs` aporta `\toprule`, `\midrule`, `\bottomrule` y `\cmidrule`.
+- `\multicolumn` combina celdas para encabezados agrupados.
+- `p{4.5cm}` permite columnas con ancho fijo y salto de línea automático.
+- `\renewcommand{\arraystretch}{1.5}` aumenta el espacio vertical cuando una tabla contiene texto.
 
-Siempre que sea posible, ajusta las columnas con `p{}` antes de escalar una tabla completa para conservar la legibilidad.
+`assets/tables/table-01.tex` muestra una tabla con encabezado agrupado, nota y fuente. `assets/tables/table-02.tex` sirve como estructura base para una tabla de dos columnas con nota. Para incluir una tabla guardada en uno de esos archivos, usa `\input{assets/tables/table-01.tex}` desde el capítulo correspondiente.
 
-## Código e imágenes
+## Imágenes y otros recursos
 
-- **`\includegraphics`**: Comando estándar para insertar recursos gráficos y controlar sus dimensiones.
-
-  ```latex
-  \includegraphics[width=0.5\textwidth]{assets/images/nombre-imagen}
-  ```
-
-- **`\texttt{}`**: Texto en fuente monoespaciada, ideal para nombres de tablas, campos, rutas y comandos cortos.
-- **`\begin{verbatim}` / `\end{verbatim}`**: Entorno para bloques que respeta espacios y tabulaciones y no interpreta los caracteres especiales de LaTeX.
-
-Ejemplo de imagen con título y referencia:
+Guarda logotipos, diagramas y figuras en `assets/images/`. Se insertan con `graphicx`:
 
 ```latex
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.7\textwidth]{assets/images/diagrama.png}
-    \caption{Diagrama del sistema}
-    \label{fig:diagrama-sistema}
+  \centering
+  \includegraphics[width=0.7\textwidth]{assets/images/diagrama.png}
+  \caption{Diagrama del sistema}
+  \label{fig:diagrama-sistema}
 \end{figure}
 ```
 
-## Flujo de trabajo
+Usa `p{ancho}` para resolver primero los desbordamientos de texto en tablas. Reserva `\resizebox{\textwidth}{!}{...}` para los casos en que la tabla completa necesite ajustarse al ancho disponible.
 
-1. Crea una copia de la plantilla.
-2. Actualiza `config/metadata.tex` y `frontmatter/cover.tex`.
-3. Modifica o agrega archivos dentro de `content/`.
-4. Actualiza los `\input{...}` de `main.tex` si cambia la estructura.
-5. Guarda imágenes en `assets/images/` y tablas reutilizables en `assets/tables/`.
-6. Agrega las fuentes a `bibliography/references.bib` y cítalas desde el contenido.
-7. Compila con LaTeX y Biber.
+## Bibliografía
+
+Agrega las fuentes a `bibliography/references.bib` con una clave única:
+
+```bibtex
+@book{ejemplo2026,
+  author    = {Apellido, Nombre},
+  title     = {Título del libro},
+  year      = {2026},
+  publisher = {Editorial}
+}
+```
+
+En el contenido, usa la clave con `\parencite{ejemplo2026}` o `\textcite{ejemplo2026}`. La bibliografía se imprime al final de `main.tex` mediante `\printbibliography` y se procesa con Biber.
 
 ## Compilación
 
-La secuencia manual para `biblatex` con Biber es:
+La secuencia manual es:
 
 ```bash
 pdflatex main.tex
@@ -271,32 +201,17 @@ pdflatex main.tex
 pdflatex main.tex
 ```
 
-La primera ejecución crea los archivos auxiliares, `biber` procesa las fuentes y las dos ejecuciones siguientes actualizan citas, índice y referencias cruzadas.
-
-Si el proyecto utiliza `build/` como directorio de salida:
-
-```bash
-pdflatex -interaction=nonstopmode -output-directory=build main.tex
-biber build/main
-pdflatex -interaction=nonstopmode -output-directory=build main.tex
-pdflatex -interaction=nonstopmode -output-directory=build main.tex
-```
-
-Con `latexmk`, utiliza Biber y no BibTeX:
+También se puede usar `latexmk`:
 
 ```bash
 latexmk -pdf -use-biber main.tex
 ```
 
-### Visual Studio Code
+En Visual Studio Code se necesita una distribución LaTeX como MiKTeX o TeX Live, Biber y LaTeX Workshop. La receta debe usar `biber` o `-use-biber`.
 
-En Windows se recomienda instalar MiKTeX o TeX Live, Biber y la extensión LaTeX Workshop. Si `latexmk` lo requiere, también debe estar disponible Perl.
+## Scripts y flujo de trabajo
 
-En LaTeX Workshop selecciona una receta que utilice `latexmk` con Biber. Una receta propia debe incluir `-use-biber` o una herramienta `biber` entre la primera y las últimas ejecuciones de LaTeX.
-
-## Scripts de contenido
-
-En PowerShell:
+Para crear archivos de contenido numerados:
 
 ```powershell
 .\scripts\create-content.ps1
@@ -309,33 +224,14 @@ chmod +x scripts/create-content.sh
 ./scripts/create-content.sh
 ```
 
-Antes de ejecutar un script, revisa la variable `names` y el número inicial para evitar crear archivos con nombres no deseados.
+Flujo recomendado:
 
-## Recomendaciones
+1. Actualiza `config/metadata.tex` y los datos visibles en `frontmatter/cover.tex`.
+2. Ajusta la estructura y el orden de los capítulos en `main.tex`.
+3. Escribe el informe en `content/`.
+4. Guarda imágenes en `assets/images/` y tablas reutilizables en `assets/tables/`.
+5. Usa `\caption` seguido inmediatamente por `\label` en cada tabla o figura.
+6. Agrega y cita las fuentes de `bibliography/references.bib`.
+7. Compila, revisa el PDF y verifica márgenes, índice, tablas, imágenes y referencias.
 
-- Mantén la configuración en `config/` y evita concentrarla en `main.tex`.
-- Usa nombres numerados de dos dígitos para conservar el orden de los archivos.
-- Mantén una clave bibliográfica única y descriptiva para cada fuente.
-- Coloca `\label` inmediatamente después de `\caption`.
-- Ejecuta Biber cada vez que agregues o modifiques referencias.
-- No edites manualmente los archivos auxiliares de `build/`.
-- Activa `showframe` solo durante la revisión de márgenes y desactívalo antes de entregar el informe.
-- Revisa el PDF final para comprobar saltos de página, tablas, imágenes, citas y referencias.
-
-## Lista de personalización
-
-| Elemento | Ubicación |
-|---|---|
-| Clase y flujo del documento | `main.tex` |
-| Paquetes y bibliografía | `config/packages.tex` |
-| Ajustes visuales | `config/settings.tex` |
-| Metadatos | `config/metadata.tex` |
-| Portada | `frontmatter/cover.tex` |
-| Resumen y agradecimientos | `frontmatter/` |
-| Contenido | `content/` |
-| Imágenes | `assets/images/` |
-| Tablas | `assets/tables/` |
-| Referencias | `bibliography/references.bib` |
-| Automatización | `scripts/` |
-
-Esta organización proporciona una base clara para desarrollar informes técnicos en LaTeX sin mezclar el contenido con la configuración del documento.
+No edites manualmente los archivos generados en `build/`. El paquete `showframe`, actualmente comentado en `config/packages.tex`, puede activarse solo para revisar los márgenes y debe desactivarse antes de entregar el informe.
