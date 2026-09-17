@@ -7,16 +7,31 @@
 \usepackage{csquotes} % Gestiona correctamente las comillas.
 \usepackage{graphicx} % Permite insertar y ajustar imágenes.
 \usepackage{booktabs} % Crea tablas con formato profesional.
-\usepackage{bookmark} % Mejora la generación de marcadores PDF.
 \usepackage{amsmath} % Añade herramientas para fórmulas matemáticas.
-\usepackage{lmodern}
-%\usepackage[backend=biber,style=apa]{biblatex} % Gestiona las referencias bibliográficas en formato APA.
+\usepackage{lmodern} % Usa la familia tipográfica Latin Modern.
+\usepackage{caption} % Personaliza el formato de títulos de figuras y tablas.
+\usepackage[hidelinks]{hyperref} % Enlaces PDF sin bordes ni colores.
+\usepackage{bookmark} % Mejora la generación de marcadores PDF.
+% Gestiona citas y bibliografía con Biber.
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    language=spanish,
+    sorting=nyt,
+    maxcitenames=2
+]{biblatex}
+
+% Formato autor-año con coma, equivalente al uso habitual de APA.
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}
+
+\addbibresource{bibliography/references.bib} % Gestiona las referencias bibliográficas en formato APA.
 
 % Paquetes de diseño y formato
+\usepackage{titlesec}
 \usepackage{xcolor} % Permite definir y usar colores personalizados.
 \usepackage{tikz} % Permite crear gráficos y formas vectoriales.
-\usepackage{tocloft}[v=2]
-%\usepackage{layout}  Mirar el espacio de margen de la hoja
-
-% Carga el archivo de referencias bibliográficas.
-%\addbibresource{bibliography/references.bib}
+\usepackage{tocloft} % Personaliza la tabla de contenido.
+%\usepackage{layout} % Muestra las dimensiones y márgenes junto con sus propiedades de la página con \layout.
+%\usepackage{showframe} % Visualizar los bordes del cuerpo y sus dimensiones.
+% Configura los márgenes y el área útil de la página.
+\usepackage[top=3cm,bottom=3cm,left=4cm,right=2cm]{geometry}

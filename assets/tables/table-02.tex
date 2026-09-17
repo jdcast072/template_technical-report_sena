@@ -1,15 +1,12 @@
 \begin{table}[htbp]
     \centering
 
-    % Número de tabla
-    \textbf{Tabla \refstepcounter{table}\thetable}\label{tab:ejemplo-estructura}
-
-    \vspace{0.5\baselineskip}
-
-    % Título de la tabla
-    \textit{El título debe ser breve y descriptivo}
-
-    \vspace{0.5\baselineskip}
+    % \caption reemplaza la numeración manual y el título. 
+    % LaTeX le agregará automáticamente "Tabla X" al principio.
+    \caption{El título debe ser breve y descriptivo}
+    
+    % \label SIEMPRE debe ir justo después de \caption para que las referencias en el texto funcionen bien.
+    \label{tab:ejemplo-estructura}
 
     \begin{tabular}{ll}
         \toprule
@@ -36,8 +33,7 @@
     \vspace{0.5\baselineskip}
 
     \begin{flushleft}
-        \textit{Nota.}
-        Se hace una descripción del contenido de la tabla en
+        \textit{Nota.} Se hace una descripción del contenido de la tabla en
         función de la información que se esté exponiendo.
     \end{flushleft}
 

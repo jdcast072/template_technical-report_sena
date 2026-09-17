@@ -1,53 +1,29 @@
-% ============================================
-% TABLA 1
-% TABLA CORTA O CON POCA INFORMACIÓN
-% ============================================
-
 \begin{table}[htbp]
     \centering
-
-    % Número de tabla
-    \refstepcounter{table}\label{tab:intervalo-edades}
-    \textbf{Tabla \thetable}
-
-    \vspace{0.5\baselineskip}
-
-    % Título de la tabla
-    \textit{Ejemplo de tabla corta o con poca información}
-
-    \vspace{0.5\baselineskip}
-
+    
+    % El comando caption reemplaza tu numeración manual y tu \textit
+    \caption{Ejemplo de tabla corta o con poca información}
+    \label{tab:intervalo-edades} % El label SIEMPRE debe ir después del caption
+    
     \begin{tabular}{lccc}
         \toprule
-
         & \multicolumn{2}{c}{Género} & \\
-
         \cmidrule(lr){2-3}
-
         Intervalo de edades & F & M & Frecuencia \\
-
         \midrule
-
         1 a 2 años & 23 & 19 & 3 años \\
-
         3 a 4 años & 31 & 27 & 2 años \\
-
         5 a 6 años & 38 & 33 & 1 año \\
-
         7 a 8 años & 51 & 48 & 1 año \\
-
         \bottomrule
     \end{tabular}
-
+    
     \vspace{0.5\baselineskip}
-
+    
     \begin{flushleft}
-        \textit{Nota.}
-        Esta tabla muestra el intervalo de años y géneros
-        encontrados en el estudio de caso realizado por el
-        proyecto de estructura.
-
+        \textit{Nota.} Esta tabla muestra el intervalo de años y géneros
+        encontrados en el estudio de caso realizado por el proyecto de estructura.
+        
         \textit{Fuente.} Autor.
     \end{flushleft}
-
 \end{table}

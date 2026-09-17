@@ -1,10 +1,10 @@
-\documentclass[12pt,letterpaper,oneside,hidelinks]{report}
+\documentclass[12pt,letterpaper,oneside]{report}
 
 % PAQUETES
 \input{config/packages.tex}
 
 % METADATOS
-%\input{config/metadata.tex}
+\input{config/metadata.tex}
 
 % CONFIGURACIONES
 \input{config/settings.tex}
@@ -16,15 +16,16 @@
 \tableofcontents
 
 \newpage
-%\layout Usar el paquete para mirar el espacio de margen 
-
+%\layout % Muestra las dimensiones y los márgenes de la página.
 
 \input{content/01-introduccion.tex}
 \input{content/02-marco-teorico.tex}
 \input{content/03-desarrollo.tex}
-\input{content/04-conclusiones.tex}
+\input{content/04-hoja-datos.tex}
+\input{content/05-conclusiones.tex}
 
 % Referencias
 %\printbibliography[heading=bibintoc,title={Referencias}]
+\printbibliography[heading=bibnumbered, title={Referencias}]
 
 \end{document}

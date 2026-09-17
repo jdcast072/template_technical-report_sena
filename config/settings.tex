@@ -3,36 +3,25 @@
 
 %\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad
 
-% No numerar los títulos según la estructura APA
-\setcounter{secnumdepth}{-1}
+\titleformat{\chapter}[hang]
+  {\normalfont\Large\bfseries}
+  {\chaptername\ \thechapter:}
+  {1em}
+  {}
+
+% Enumerar los títulos en un valor positivo
+\setcounter{secnumdepth}{5}
 
 % \setcounter{secnumdepth}{5} % Numeración de secciones
 
 % Profundidad en la tabla de contenido
-% \setcounter{tocdepth}{5}
+ \setcounter{tocdepth}{5}
 
-% Puntos de relleno entre el título de la entrada y el número de página
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Títulos
-\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}} % Subsecciones
-\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}} % Subsubsecciones
-
-% Eliminar negrilla únicamente en el contenido
-
-\renewcommand{\cftsecfont}{\normalfont} % Títulos
-\renewcommand{\cftsubsecfont}{\normalfont} % Subsecciones
-\renewcommand{\cftsubsubsecfont}{\normalfont} % Subsubsecciones
-
-% Eliminar negrilla de los números de página
-
-\renewcommand{\cftsecpagefont}{\normalfont} % Títulos
-\renewcommand{\cftsubsecpagefont}{\normalfont} % Subsecciones
-\renewcommand{\cftsubsubsecpagefont}{\normalfont} % Subsubsecciones
-
-
-% Centrar el título "Índice" sin someterlo al formato lateral de apa7.
+% Centrar el título "Índice" y ajustar su tamaño de fuente
 \renewcommand{\cfttoctitlefont}{%
-    \hfil
-    \bfseries
+    \hfil         % Centra el texto
+    \bfseries     % Aplica negrilla
+    \Large        % Establece el tamaño de la fuente (puedes usar \LARGE o \huge)
 }
 \renewcommand{\cftaftertoctitle}{}
 
@@ -40,3 +29,11 @@
 \definecolor{greenPrimary}{RGB}{34,165,94}
 % Define una variante clara del color institucional.
 \definecolor{greenLight}{RGB}{0,0,0}
+
+% Configuración profesional para los títulos de tablas y figuras
+\captionsetup[table]{
+    labelsep=newline,        % Salto de línea entre "Tabla X" y el título
+    justification=centering, % Mantiene el centrado que ya tienes
+    labelfont=bf,            % Pone "Tabla X" en negrilla
+    textfont=it              % Pone el título de la tabla en cursiva
+}
