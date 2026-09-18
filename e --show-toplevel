@@ -1,363 +1,0 @@
-[1mdiff --git a/assets/tables/table-01.tex b/assets/tables/table-01.tex[m
-[1mindex 968cac7..f174bb3 100644[m
-[1m--- a/assets/tables/table-01.tex[m
-[1m+++ b/assets/tables/table-01.tex[m
-[36m@@ -1,29 +1,25 @@[m
- \begin{table}[htbp][m
-     \centering[m
-[31m-    [m
-     % El comando caption reemplaza tu numeración manual y tu \textit[m
-[31m-    \caption{Ejemplo de tabla corta o con poca información}[m
-[31m-    \label{tab:intervalo-edades} % El label SIEMPRE debe ir después del caption[m
-[32m+[m[32m    \caption{Ejemplo de datos con unidades}[m[41m[m
-[32m+[m[32m    \label{tab:intervalo-edades}  % El label SIEMPRE debe ir después del caption[m[41m[m
-     [m
-[31m-    \begin{tabular}{lccc}[m
-[31m-        \toprule[m
-[31m-        & \multicolumn{2}{c}{Género} & \\[m
-[31m-        \cmidrule(lr){2-3}[m
-[31m-        Intervalo de edades & F & M & Frecuencia \\[m
-[31m-        \midrule[m
-[31m-        1 a 2 años & 23 & 19 & 3 años \\[m
-[31m-        3 a 4 años & 31 & 27 & 2 años \\[m
-[31m-        5 a 6 años & 38 & 33 & 1 año \\[m
-[31m-        7 a 8 años & 51 & 48 & 1 año \\[m
-[31m-        \bottomrule[m
-[31m-    \end{tabular}[m
-[32m+[m[32m    \begin{tabularx}{\textwidth}{|L|C|R|L|}[m[41m[m
-[32m+[m[32m        \hline[m[41m[m
-[32m+[m[32m        & \multicolumn{2}{c|}{Género} & \\[m[41m[m
-[32m+[m[32m        \hline[m[41m[m
-[32m+[m[32m        \cline{2-3} % Línea horizontal exclusiva para las columnas 2 y 3[m[41m[m
-[32m+[m[32m        Intervalo de edades (Años) & F & M & Frecuencia (Años) \\[m[41m[m
-[32m+[m[32m        \hline[m[41m[m
-[32m+[m[32m        1 a 2 & 23 & 19 & 3 \\[m[41m[m
-[32m+[m[32m        3 a 4 & 31 & 27 & 2 \\[m[41m[m
-[32m+[m[32m        5 a 6 & 38 & 33 & 1 \\[m[41m[m
-[32m+[m[32m        7 a 8 & 51 & 48 & 1 \\[m[41m[m
-[32m+[m[32m        \hline[m[41m[m
-[32m+[m[32m    \end{tabularx}[m[41m[m
-     [m
-     \vspace{0.5\baselineskip}[m
-[31m-    [m
-     \begin{flushleft}[m
-[31m-        \textit{Nota.} Esta tabla muestra el intervalo de años y géneros[m
-[31m-        encontrados en el estudio de caso realizado por el proyecto de estructura.[m
-[31m-        [m
-[31m-        \textit{Fuente.} Autor.[m
-[32m+[m[32m        \fontsize{10}{12}\selectfont \textit{Fuente: Elaboración propia.}[m[41m[m
-     \end{flushleft}[m
- \end{table}[m
-\ No newline at end of file[m
-[1mdiff --git a/assets/tables/table-02.tex b/assets/tables/table-02.tex[m
-[1mindex 6923c91..d49e2d8 100644[m
-[1m--- a/assets/tables/table-02.tex[m
-[1m+++ b/assets/tables/table-02.tex[m
-[36m@@ -8,26 +8,15 @@[m
-     % \label SIEMPRE debe ir justo después de \caption para que las referencias en el texto funcionen bien.[m
-     \label{tab:ejemplo-estructura}[m
- [m
-[31m-    \begin{tabular}{ll}[m
-[31m-        \toprule[m
-[31m-[m
-[31m-        Columna uno        & Columna dos        \\[m
-[31m-[m
-[31m-        \midrule[m
-[31m-[m
-[31m-        Número de la tabla & Título de la tabla \\[m
-[31m-[m
-[31m-        Encabezado         & Datos de la tabla  \\[m
-[31m-[m
-[31m-        Datos de la tabla  & Datos de la tabla  \\[m
-[31m-[m
-[31m-        Datos de la tabla  & Datos de la tabla  \\[m
-[31m-[m
-[31m-        Datos de la tabla  & Datos de la tabla  \\[m
-[31m-[m
-[31m-        Datos de la tabla  & Datos de la tabla  \\[m
-[31m-[m
-[31m-        \bottomrule[m
-[32m+[m[32m    \begin{tabular}{|l|l|}[m[41m[m
-[32m+[m[32m        \hline[m[41m[m
-[32m+[m[32m        Columna uno        & Columna dos        \rb[m[41m[m
-[32m+[m[32m        Número de la tabla & Título de la tabla \rb[m[41m[m
-[32m+[m[32m        Encabezado         & Datos de la tabla  \rb[m[41m[m
-[32m+[m[32m        Datos de la tabla  & Datos de la tabla  \rb[m[41m[m
-[32m+[m[32m        Datos de la tabla  & Datos de la tabla  \rb[m[41m[m
-[32m+[m[32m        Datos de la tabla  & Datos de la tabla  \rb[m[41m[m
-[32m+[m[32m        Datos de la tabla  & Datos de la tabla  \rb[m[41m[m
-     \end{tabular}[m
- [m
-     \vspace{0.5\baselineskip}[m
-[1mdiff --git a/config/packages.tex b/config/packages.tex[m
-[1mindex 63c715f..3a4aede 100644[m
-[1m--- a/config/packages.tex[m
-[1m+++ b/config/packages.tex[m
-[36m@@ -5,19 +5,22 @@[m
- \usepackage[T1]{fontenc} % Mejora la codificación de las fuentes.[m
- \usepackage[spanish,es-nodecimaldot]{babel} % Adapta el documento al idioma español.[m
- \usepackage{csquotes} % Gestiona correctamente las comillas.[m
-[31m-\usepackage{graphicx} % Permite insertar y ajustar imágenes.[m
-[31m-\usepackage{booktabs} % Crea tablas con formato profesional.[m
-[32m+[m[32m\usepackage{graphicx} % Permite insertar y ajustar imágenes y tablas.[m[41m[m
-[32m+[m[32m\usepackage{tabularx} % Definir un ancho total para la tabla[m[41m[m
-[32m+[m[32m\usepackage{booktabs} % Crea tablas con formato profesional para \toprule, \midrule, \bottomrule.[m[41m[m
-[32m+[m[32m\usepackage{array}    % Necesario para centrar o alinear columnas X[m[41m[m
- \usepackage{amsmath} % Añade herramientas para fórmulas matemáticas.[m
-[32m+[m[32m\usepackage{float} % Forzar la posición estricta de objetos: tablas e imágenes.[m[41m[m
- \usepackage{lmodern} % Usa la familia tipográfica Latin Modern.[m
- \usepackage{caption} % Personaliza el formato de títulos de figuras y tablas.[m
-[31m-\usepackage[hidelinks]{hyperref} % Enlaces PDF sin bordes ni colores.[m
-[32m+[m[32m\usepackage{hyperref} % Enlaces PDF sin bordes ni colores.[m[41m[m
- \usepackage{bookmark} % Mejora la generación de marcadores PDF.[m
-[31m-% Gestiona citas y bibliografía con Biber.[m
-[32m+[m[32m% Motor de gestión de citas y bibliografía con Biber.[m[41m[m
- \usepackage[[m
-     backend=biber,[m
-[31m-    style=authoryear,[m
-[32m+[m[32m    style=numeric,[m[41m[m
-     language=spanish,[m
-[31m-    sorting=nyt,[m
-[32m+[m[32m    sorting=nty,[m[41m[m
-     maxcitenames=2[m
- ]{biblatex}[m
- [m
-[36m@@ -27,7 +30,7 @@[m
- \addbibresource{bibliography/references.bib} % Gestiona las referencias bibliográficas en formato APA.[m
- [m
- % Paquetes de diseño y formato[m
-[31m-\usepackage{titlesec}[m
-[32m+[m[32m\usepackage{titlesec} % Paquete para modificar los títulos[m[41m[m
- \usepackage{xcolor} % Permite definir y usar colores personalizados.[m
- \usepackage{tikz} % Permite crear gráficos y formas vectoriales.[m
- \usepackage{tocloft} % Personaliza la tabla de contenido.[m
-[1mdiff --git a/config/settings.tex b/config/settings.tex[m
-[1mindex 743beef..3e0002b 100644[m
-[1m--- a/config/settings.tex[m
-[1m+++ b/config/settings.tex[m
-[36m@@ -1,19 +1,33 @@[m
- % Diseño de border y tabla de contenido[m
- \usetikzlibrary{calc} % Facilita cálculos de coordenadas en TikZ.[m
- [m
-[31m-%\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad[m
-[32m+[m[32m\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad[m[41m[m
-[32m+[m[32m% Configuración de enlaces para el documento[m[41m[m
-[32m+[m[32m\hypersetup{[m[41m[m
-[32m+[m[32m    colorlinks=true,           % Activa/Desactiva el color en los textos de los enlaces en lugar de recuadros[m[41m[m
-[32m+[m[32m    citecolor=greenPrimary, % Asigna el color a las citas bibliográficas[m[41m[m
-[32m+[m[32m    linkcolor=black,           % Color para enlaces internos (índice, figuras, tablas)[m[41m[m
-[32m+[m[32m    urlcolor=black            % Color para los enlaces web (URL)[m[41m[m
-[32m+[m[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m[32m% Relleno de punto para los capítulos en la tabla de contenido.[m[41m[m
-[32m+[m[32m\renewcommand{\cftchapdotsep}{\cftdotsep}[m[41m[m
- [m
-[32m+[m[32m% Redefinición del formato de \chapter[m[41m[m
- \titleformat{\chapter}[hang][m
-[31m-  {\normalfont\Large\bfseries}[m
-[31m-  {\chaptername\ \thechapter:}[m
-[31m-  {1em}[m
-[31m-  {}[m
-[32m+[m[32m  {\normalfont\Large\bfseries\filcenter\uppercase} % Formato: 14pt (aprox), negrita, centrado, mayúsculas[m[41m[m
-[32m+[m[32m  {\thechapter.} % Imprime solo el número seguido de un punto[m[41m[m
-[32m+[m[32m  {1em} % Espacio entre el número y el título[m[41m[m
-[32m+[m[32m  {}[m[41m [m
-[32m+[m[41m[m
-[32m+[m[32m% Opcional: Ajustar el espaciado antes y después del capítulo[m[41m[m
-[32m+[m[32m% LaTeX suele dejar un gran espacio en blanco arriba de los capítulos.[m[41m[m
-[32m+[m[32m% Con esto puedes reducir ese margen superior si lo deseas.[m[41m[m
-[32m+[m[32m\titlespacing*{\chapter}{0pt}{-30pt}{20pt}[m[41m[m
- [m
- % Enumerar los títulos en un valor positivo[m
- \setcounter{secnumdepth}{5}[m
- [m
-[31m-% \setcounter{secnumdepth}{5} % Numeración de secciones[m
-[31m-[m
- % Profundidad en la tabla de contenido[m
-  \setcounter{tocdepth}{5}[m
- [m
-[36m@@ -30,10 +44,22 @@[m
- % Define una variante clara del color institucional.[m
- \definecolor{greenLight}{RGB}{0,0,0}[m
- [m
-[31m-% Configuración profesional para los títulos de tablas y figuras[m
-[32m+[m[32m% Configuración profesional para los títulos de tablas y figuras (opcional)[m[41m[m
- \captionsetup[table]{[m
-     labelsep=newline,        % Salto de línea entre "Tabla X" y el título[m
-     justification=centering, % Mantiene el centrado que ya tienes[m
-     labelfont=bf,            % Pone "Tabla X" en negrilla[m
-     textfont=it              % Pone el título de la tabla en cursiva[m
-[31m-}[m
-\ No newline at end of file[m
-[32m+[m[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m[32m% Creación de atajos de una sola línea a partir de una sola letra[m[41m[m
-[32m+[m[32m% Estos paquetes son necesarios para el funcionamiento de las tablas[m[41m[m
-[32m+[m[32m% \usepackage{tabularx}[m[41m[m
-[32m+[m[32m% \usepackage{array}[m[41m[m
-[32m+[m[32m\newcolumntype{L}{>{\raggedright\arraybackslash}X}   % L para alinear a la izquierda[m[41m[m
-[32m+[m[32m\newcolumntype{C}{>{\centering\arraybackslash}X}     % C para centrar[m[41m[m
-[32m+[m[32m\newcolumntype{R}{>{\raggedleft\arraybackslash}X}    % R para alinear a la derecha[m[41m[m
-[32m+[m[32m\newcommand{\rb}{\\ \hline} % Salto de línea + espacio opcional + línea horizontal[m[41m[m
-[32m+[m[41m[m
-[32m+[m[32m% cualquier apellido extraído de las referencias estará en mayúscula[m[41m[m
-[32m+[m[32m\renewcommand{\mkbibnamefamily}[1]{\MakeUppercase{#1}}[m
-\ No newline at end of file[m
-[1mdiff --git a/content/01-introduccion.tex b/content/01-introduccion.tex[m
-[1mdeleted file mode 100644[m
-[1mindex 2283f00..0000000[m
-[1m--- a/content/01-introduccion.tex[m
-[1m+++ /dev/null[m
-[36m@@ -1,6 +0,0 @@[m
-[31m-% Contenido[m
-[31m-\chapter{Introducción}[m
-[31m-\section{Sección}[m
-[31m-\subsection{subsección}[m
-[31m-\subsubsection{subsubsección}[m
-[31m-Un texto corto de ejemplo2026[m
-\ No newline at end of file[m
-[1mdiff --git a/content/02-marco-teorico.tex b/content/02-marco-teorico.tex[m
-[1mdeleted file mode 100644[m
-[1mindex 6dfcdf3..0000000[m
-[1m--- a/content/02-marco-teorico.tex[m
-[1m+++ /dev/null[m
-[36m@@ -1,3 +0,0 @@[m
-[31m-\section{Marco Teorico}[m
-[31m-[m
-[31m-\input{assets/tables/table-01.tex}[m
-\ No newline at end of file[m
-[1mdiff --git a/content/03-desarrollo.tex b/content/03-desarrollo.tex[m
-[1mdeleted file mode 100644[m
-[1mindex 4544c94..0000000[m
-[1m--- a/content/03-desarrollo.tex[m
-[1m+++ /dev/null[m
-[36m@@ -1,4 +0,0 @@[m
-[31m-\section{Desarrollo}[m
-[31m-[m
-[31m-\input{assets/tables/table-02.tex}[m
-[31m-La aplicación de las normas de citación contribuye a documentar las fuentes consultadas \parencite{normaAPA7}.[m
-\ No newline at end of file[m
-[1mdiff --git a/content/04-hoja-datos.tex b/content/04-hoja-datos.tex[m
-[1mdeleted file mode 100644[m
-[1mindex 8b7cccc..0000000[m
-[1m--- a/content/04-hoja-datos.tex[m
-[1m+++ /dev/null[m
-[36m@@ -1,25 +0,0 @@[m
-[31m-\chapter{Hoja de datos del documento}[m
-[31m-% La siguiente línea agrega esta sección al índice general sin numerarla[m
-[31m-\addcontentsline{toc}{chapter}{Hoja de datos del documento}[m
-[31m-[m
-[31m-\begin{table}[htbp][m
-[31m-    \centering[m
-[31m-    % \arraystretch da un poco más de altura a las celdas para que respire el texto[m
-[31m-    \renewcommand{\arraystretch}{1.5} [m
-[31m-    [m
-[31m-    \begin{tabular}{|p{4.5cm}|p{9.5cm}|}[m
-[31m-        \hline[m
-[31m-        \textbf{Título del informe} & Informe técnico AA3-EV01 – Importech S.A.S, Sentencias DDL y DML \\[m
-[31m-        \hline[m
-[31m-        \textbf{Autor(es)} & Juan Diego Castañeda González \\[m
-[31m-        \hline[m
-[31m-        \textbf{Fecha} & \today \\[m
-[31m-        \hline[m
-[31m-        \textbf{Palabras clave} & Sistema de información, Base de datos relacional, SQL, Importech. \\[m
-[31m-        \hline[m
-[31m-        \textbf{Resumen bibliográ.} & Diseño de una RDB\\[m
-[31m-        \hline[m
-[31m-        \textbf{Lista de distribución} & Docente de la asignatura nnnn\textendash{}nA-Z Diseño de Software, Facultad de Ingeniería. \\[m
-[31m-        \hline[m
-[31m-    \end{tabular}[m
-[31m-\end{table}[m
-\ No newline at end of file[m
-[1mdiff --git a/content/05-conclusiones.tex b/content/05-conclusiones.tex[m
-[1mdeleted file mode 100644[m
-[1mindex ab71532..0000000[m
-[1m--- a/content/05-conclusiones.tex[m
-[1m+++ /dev/null[m
-[36m@@ -1 +0,0 @@[m
-[31m-\section{Conclusiones}[m
-\ No newline at end of file[m
-[1mdiff --git a/frontmatter/cover.tex b/frontmatter/cover.tex[m
-[1mindex 441977e..0c87077 100644[m
-[1m--- a/frontmatter/cover.tex[m
-[1m+++ b/frontmatter/cover.tex[m
-[36m@@ -93,18 +93,17 @@[m
-     \includegraphics[width=0.38\textwidth]{./assets/images/SENA-wh-bg.png}[m
- [m
-     \vspace{1.5cm}[m
-[31m-[m
-[32m+[m[32m    {\large Servicio de Enseñanza Nacional de Aprendizaje SENA \\ Facultad de Ingeniería de Software[m[41m[m
-[32m+[m[32m    \par}[m[41m[m
-[32m+[m[32m    \vspace{1.5cm}[m[41m[m
-     {\large[m
-[31m-        Informe técnico AA3-EV01 \textendash{} Importech S.A.S, Sentencias DDL y DML[m
-[32m+[m[32m        Informe técnico AA3-EV01 \textendash{} Importech S.A.S \textendash{} Sentencias DDL y DML[m[41m[m
-         \par}[m
-     \vspace{1.5cm}[m
-     {\large Juan Diego Castañeda González[m
-         \par}[m
-     \vspace{1.5cm}[m
-[31m-    {\large Facultad de Ingeniería de Software \\ Fundación Universitaria Compensar[m
-[31m-        \par}[m
-[31m-    \vspace{1.5cm}[m
-[31m-    {\large 2310\textendash{}9A. Diseño de Software[m
-[32m+[m[32m    {\large 2310\textendash{}9A. Bases de Datos[m[41m[m
-         \par}[m
-     \vspace{1.5cm}[m
- [m
-[1mdiff --git a/main.pdf b/main.pdf[m
-[1mindex 717f714..8919ad0 100644[m
-Binary files a/main.pdf and b/main.pdf differ
-[1mdiff --git a/main.tex b/main.tex[m
-[1mindex 42170ae..a86ea4b 100644[m
-[1m--- a/main.tex[m
-[1m+++ b/main.tex[m
-[36m@@ -1,4 +1,4 @@[m
-[31m-\documentclass[12pt,letterpaper,oneside]{report}[m
-[32m+[m[32m\documentclass[12pt,letterpaper,oneside,hidelinks]{report}[m[41m[m
- [m
- % PAQUETES[m
- \input{config/packages.tex}[m
-[36m@@ -18,14 +18,17 @@[m
- \newpage[m
- %\layout % Muestra las dimensiones y los márgenes de la página.[m
- [m
-[31m-\input{content/01-introduccion.tex}[m
-[31m-\input{content/02-marco-teorico.tex}[m
-[31m-\input{content/03-desarrollo.tex}[m
-[31m-\input{content/04-hoja-datos.tex}[m
-[31m-\input{content/05-conclusiones.tex}[m
-[32m+[m[32m\input{content/01-resumen.tex}[m[41m[m
-[32m+[m[32m\input{content/02-metodología-experimental.tex}[m[41m[m
-[32m+[m[32m\input{content/03-procedimiento.tex}[m[41m[m
-[32m+[m[32m\input{content/04-analisis-de-error.tex}[m[41m[m
-[32m+[m[32m\input{content/05-datos-calculados.tex}[m[41m[m
-[32m+[m[32m\input{content/06-resultados.tex}[m[41m[m
-[32m+[m[32m\input{content/07-interpretacion-resultados.tex}[m[41m[m
-[32m+[m[32m\input{content/08-conclusiones.tex}[m[41m[m
- [m
- % Referencias[m
- %\printbibliography[heading=bibintoc,title={Referencias}][m
-[31m-\printbibliography[heading=bibnumbered, title={Referencias}][m
-[32m+[m[32m\printbibliography[heading=bibnumbered, title={Bibliografía}][m[41m[m
- [m
- \end{document}[m
-\ No newline at end of file[m
-[1mdiff --git a/scripts/create-content.sh b/scripts/create-content.sh[m
-[1mindex b093e8e..4439895 100644[m
-[1m--- a/scripts/create-content.sh[m
-[1m+++ b/scripts/create-content.sh[m
-[36m@@ -8,8 +8,11 @@[m [mstart=3[m
- [m
- # Nombres de las secciones.[m
- names=([m
-[31m-    tecnicas-levantamiento[m
-[31m-    analisis-beneficios[m
-[32m+[m[32m    analisis-de-error[m
-[32m+[m[32m    datos-calculados[m
-[32m+[m[32m    resultados[m
-[32m+[m[32m    interpretacion-resultados[m
-[32m+[m[32m    conclusiones[m
- )[m
- [m
- # Crea el directorio si no existe.[m
