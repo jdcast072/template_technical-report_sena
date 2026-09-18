@@ -256,6 +256,35 @@ Guarda logotipos, diagramas y demás recursos en `assets/images/` e insértalos 
 
 Los labels de figuras también deben ser únicos y seguir un prefijo como `fig:`. Después de agregar o cambiar imágenes, revisa que la ruta, el tamaño y la posición no produzcan desbordamientos.
 
+## Código fuente con `listings`
+
+El paquete `listings`, cargado en `config/packages.tex`, permite insertar código fuente directamente en el documento y conservar una presentación legible en el PDF. La configuración visual se centraliza en `config/settings.tex` mediante `\lstset`, por lo que los bloques de código mantienen el mismo formato en todos los capítulos.
+
+El estilo actual usa:
+
+- Fondo oscuro `notiondark` y texto claro `notiontext`.
+- Fuente monoespaciada pequeña mediante `\ttfamily\small`.
+- Palabras reservadas en azul mediante `notionkeyword`.
+- Números de línea en el margen izquierdo con `numbers=left`.
+- Sin marco exterior (`frame=none`) y con márgenes horizontales internos.
+- Salto automático de líneas largas con `breaklines=true`.
+- Detección de palabras clave sin distinguir mayúsculas y minúsculas mediante `sensitive=false`.
+
+Para insertar una sentencia SQL, usa el entorno `lstlisting` e indica el lenguaje:
+
+```latex
+\begin{lstlisting}[language=SQL, caption={Consulta de productos}, label={lst:consulta-productos}]
+SELECT nombre, precio
+FROM productos
+WHERE precio > 100000
+ORDER BY precio DESC;
+\end{lstlisting}
+```
+
+El bloque puede referenciarse desde el texto con `\ref{lst:consulta-productos}`. Usa labels únicos con el prefijo `lst:` para evitar advertencias de referencias duplicadas. También pueden insertarse otros lenguajes compatibles con `listings`, por ejemplo `Python`, `Java`, `C` o `JavaScript`.
+
+Los parámetros visuales activos se encuentran en `config/settings.tex`. Allí también se conservan, comentadas, algunas opciones alternativas como colores para cadenas y comentarios, marcos y ocultamiento de números de línea. Esas opciones no tienen efecto hasta que se descomenten o se incorporen explícitamente a `\lstset`.
+
 ## Citación y bibliografía
 
 Las citas del texto usan superíndices numéricos sin corchetes mediante `\supercite`:

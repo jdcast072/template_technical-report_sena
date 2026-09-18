@@ -61,5 +61,37 @@
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}    % R para alinear a la derecha
 \newcommand{\rb}{\\ \hline} % Salto de línea + espacio opcional + línea horizontal
 
+
+\definecolor{notiondark}{RGB}{25,25,25}
+\definecolor{notionkeyword}{RGB}{90,140,210}
+\definecolor{notiontext}{RGB}{220,220,220}
+
+\lstset{
+    % =========================================================================
+    % 1. PARÁMETROS ACTIVOS (Asociados al estilo limpio y oscuro de Notion)
+    % =========================================================================
+    backgroundcolor=\color{notiondark},           % Asigna el color de fondo oscuro al bloque de código.
+    basicstyle=\ttfamily\small\color{notiontext}, % Configura la fuente a monoespaciada, tamaño pequeño y color de texto claro.
+    keywordstyle=\color{notionkeyword},         % Aplica un color azulado distintivo a las palabras reservadas del lenguaje.
+    numbers=left,                                 % Muestra los números de línea en el margen izquierdo.
+    frame=none,                                   % Elimina cualquier marco o borde alrededor del bloque de código.
+    xleftmargin=1em,                              % Establece un margen interno izquierdo para separar el texto de la orilla.
+    xrightmargin=1em,                             % Establece un margen interno derecho para equilibrar el espaciado.
+    breaklines=true,                              % Habilita el salto automático de línea si el código es muy largo.
+    sensitive=false
+}                            
+
+    
+    % =========================================================================
+    % 2. PARÁMETROS INACTIVOS (No se usan en este estilo, pero conservan su definición)
+    % =========================================================================
+    % sensitive=false                              % Hace que el intérprete ignore mayúsculas/minúsculas al detectar palabras clave.
+    % stringstyle=\color{red},                     % Define el color específico para los textos o cadenas de caracteres (strings).
+    % commentstyle=\color{green!60!black},         % Define el color con el que se muestran los comentarios en el código.
+    % frame=single,                                % Dibuja una línea o caja completa alrededor de todo el bloque de código.
+    % numbers=left/none,                                % Muestra los números de las líneas alineados en el margen izquierdo.
+    % rulecolor=\color{gray!40},                   % Define el color del borde exterior (necesario si el frame estuviera activo).
+
+
 % cualquier apellido extraído de las referencias estará en mayúscula
 \renewcommand{\mkbibnamefamily}[1]{\MakeUppercase{#1}}
