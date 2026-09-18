@@ -8,8 +8,11 @@ start=3
 
 # Nombres de las secciones.
 names=(
-    tecnicas-levantamiento
-    analisis-beneficios
+    analisis-de-error
+    datos-calculados
+    resultados
+    interpretacion-resultados
+    conclusiones
 )
 
 # Crea el directorio si no existe.

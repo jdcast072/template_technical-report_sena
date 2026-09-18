@@ -1,18 +1,32 @@
 % Diseño de border y tabla de contenido
 \usetikzlibrary{calc} % Facilita cálculos de coordenadas en TikZ.
 
-%\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad
+\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad
+% Configuración de enlaces para el documento
+\hypersetup{
+    colorlinks=true,           % Activa/Desactiva el color en los textos de los enlaces en lugar de recuadros
+    citecolor=greenPrimary, % Asigna el color a las citas bibliográficas
+    linkcolor=black,           % Color para enlaces internos (índice, figuras, tablas)
+    urlcolor=black            % Color para los enlaces web (URL)
+}
 
+% Relleno de punto para los capítulos en la tabla de contenido.
+\renewcommand{\cftchapdotsep}{\cftdotsep}
+
+% Redefinición del formato de \chapter
 \titleformat{\chapter}[hang]
-  {\normalfont\Large\bfseries}
-  {\chaptername\ \thechapter:}
-  {1em}
-  {}
+  {\normalfont\Large\bfseries\filcenter\uppercase} % Formato: 14pt (aprox), negrita, centrado, mayúsculas
+  {\thechapter.} % Imprime solo el número seguido de un punto
+  {1em} % Espacio entre el número y el título
+  {} 
+
+% Opcional: Ajustar el espaciado antes y después del capítulo
+% LaTeX suele dejar un gran espacio en blanco arriba de los capítulos.
+% Con esto puedes reducir ese margen superior si lo deseas.
+\titlespacing*{\chapter}{0pt}{-30pt}{20pt}
 
 % Enumerar los títulos en un valor positivo
 \setcounter{secnumdepth}{5}
-
-% \setcounter{secnumdepth}{5} % Numeración de secciones
 
 % Profundidad en la tabla de contenido
  \setcounter{tocdepth}{5}
@@ -30,10 +44,22 @@
 % Define una variante clara del color institucional.
 \definecolor{greenLight}{RGB}{0,0,0}
 
-% Configuración profesional para los títulos de tablas y figuras
+% Configuración profesional para los títulos de tablas y figuras (opcional)
 \captionsetup[table]{
     labelsep=newline,        % Salto de línea entre "Tabla X" y el título
     justification=centering, % Mantiene el centrado que ya tienes
     labelfont=bf,            % Pone "Tabla X" en negrilla
     textfont=it              % Pone el título de la tabla en cursiva
 }
+
+% Creación de atajos de una sola línea a partir de una sola letra
+% Estos paquetes son necesarios para el funcionamiento de las tablas
+% \usepackage{tabularx}
+% \usepackage{array}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}   % L para alinear a la izquierda
+\newcolumntype{C}{>{\centering\arraybackslash}X}     % C para centrar
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}    % R para alinear a la derecha
+\newcommand{\rb}{\\ \hline} % Salto de línea + espacio opcional + línea horizontal
+
+% cualquier apellido extraído de las referencias estará en mayúscula
+\renewcommand{\mkbibnamefamily}[1]{\MakeUppercase{#1}}

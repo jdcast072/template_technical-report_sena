@@ -1,4 +1,4 @@
-\documentclass[12pt,letterpaper,oneside]{report}
+\documentclass[12pt,letterpaper,oneside,hidelinks]{report}
 
 % PAQUETES
 \input{config/packages.tex}
@@ -18,14 +18,17 @@
 \newpage
 %\layout % Muestra las dimensiones y los márgenes de la página.
 
-\input{content/01-introduccion.tex}
-\input{content/02-marco-teorico.tex}
-\input{content/03-desarrollo.tex}
-\input{content/04-hoja-datos.tex}
-\input{content/05-conclusiones.tex}
+\input{content/01-resumen.tex}
+\input{content/02-metodología-experimental.tex}
+\input{content/03-procedimiento.tex}
+\input{content/04-analisis-de-error.tex}
+\input{content/05-datos-calculados.tex}
+\input{content/06-resultados.tex}
+\input{content/07-interpretacion-resultados.tex}
+\input{content/08-conclusiones.tex}
 
 % Referencias
 %\printbibliography[heading=bibintoc,title={Referencias}]
-\printbibliography[heading=bibnumbered, title={Referencias}]
+\printbibliography[heading=bibnumbered, title={Bibliografía}]
 
 \end{document}

@@ -5,7 +5,11 @@
 \begin{table}[htbp]
     \centering
     % \arraystretch da un poco más de altura a las celdas para que respire el texto
-    \renewcommand{\arraystretch}{1.5} 
+    \renewcommand{\arraystretch}{1.2} 
+    
+    % El caption reemplaza la numeración manual.
+    \caption{Información general del documento técnico}
+    \label{tab:hoja-datos}
     
     \begin{tabular}{|p{4.5cm}|p{9.5cm}|}
         \hline
@@ -22,4 +26,10 @@
         \textbf{Lista de distribución} & Docente de la asignatura nnnn\textendash{}nA-Z Diseño de Software, Facultad de Ingeniería. \\
         \hline
     \end{tabular}
+    \vspace{0.5\baselineskip}
+    % Fuente alineada a la izquierda según los lineamientos del video
+    \begin{flushleft}
+        \fontsize{10}{12}\selectfont \textit{Fuente: Elaboración propia, 2026.}
+    \end{flushleft}
 \end{table}
+%\vspace{1cm}

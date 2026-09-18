@@ -1,29 +1,25 @@
 \begin{table}[htbp]
     \centering
-    
     % El comando caption reemplaza tu numeración manual y tu \textit
-    \caption{Ejemplo de tabla corta o con poca información}
-    \label{tab:intervalo-edades} % El label SIEMPRE debe ir después del caption
+    \caption{Ejemplo de datos con unidades}
+    \label{tab:intervalo-edades}  % El label SIEMPRE debe ir después del caption
     
-    \begin{tabular}{lccc}
-        \toprule
-        & \multicolumn{2}{c}{Género} & \\
-        \cmidrule(lr){2-3}
-        Intervalo de edades & F & M & Frecuencia \\
-        \midrule
-        1 a 2 años & 23 & 19 & 3 años \\
-        3 a 4 años & 31 & 27 & 2 años \\
-        5 a 6 años & 38 & 33 & 1 año \\
-        7 a 8 años & 51 & 48 & 1 año \\
-        \bottomrule
-    \end{tabular}
+    \begin{tabularx}{\textwidth}{|L|C|R|L|}
+        \hline
+        & \multicolumn{2}{c|}{Género} & \\
+        \hline
+        \cline{2-3} % Línea horizontal exclusiva para las columnas 2 y 3
+        Intervalo de edades (Años) & F & M & Frecuencia (Años) \\
+        \hline
+        1 a 2 & 23 & 19 & 3 \\
+        3 a 4 & 31 & 27 & 2 \\
+        5 a 6 & 38 & 33 & 1 \\
+        7 a 8 & 51 & 48 & 1 \\
+        \hline
+    \end{tabularx}
     
     \vspace{0.5\baselineskip}
-    
     \begin{flushleft}
-        \textit{Nota.} Esta tabla muestra el intervalo de años y géneros
-        encontrados en el estudio de caso realizado por el proyecto de estructura.
-        
-        \textit{Fuente.} Autor.
+        \fontsize{10}{12}\selectfont \textit{Fuente: Elaboración propia.}
     \end{flushleft}
 \end{table}

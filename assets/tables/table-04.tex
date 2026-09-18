@@ -1,0 +1,35 @@
+\begin{table}[H]
+    \centering
+    % Ajusta un poco la altura de las celdas para que respire la imagen
+    \renewcommand{\arraystretch}{1.8} 
+    
+    % Título de la tabla en la parte superior, numerada en romano
+    \caption{Esquema relacional y de componentes del sistema de Importech S.A.}
+    \label{tab:imagen-en-tabla}
+    
+    % Definimos dos columnas: una para una etiqueta y otra de ancho fijo (p{6cm}) para la imagen
+    \begin{tabular}{|l|p{8cm}|}
+        \hline
+        \textbf{Componente} & \textbf{Diagrama / Ilustración asociada} \\
+        \hline
+        Modelo Relacional & 
+        % Aquí insertamos la imagen dentro de la celda
+        \begin{center}
+        \vspace{0.2cm} % Espacio de separación en la parte superior
+        \includegraphics[width=4.0cm]{assets/images/SENA.png} % Ancho reducido para que no toque los bordes laterales
+        \vspace{0.2cm} % Espacio de separación en la parte inferior
+    \end{center}
+        \\
+        \hline
+        Descripción & 
+        Diagrama principal que muestra la integración de tablas y llaves foráneas para Importech S.A. \\
+        \hline
+    \end{tabular}
+    
+    \vspace{0.5\baselineskip}
+    
+    % Fuente en la parte inferior izquierda con tamaño Arial 10 pts (aproximadamente)
+    \begin{flushleft}
+        \fontsize{10}{12}\selectfont \textit{Fuente: Elaboración propia, 2026.}
+    \end{flushleft}
+\end{table}

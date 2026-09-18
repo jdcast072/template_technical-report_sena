@@ -1,0 +1,21 @@
+\chapter{Interpretacion de los Resultados}
+Es la discusión donde se establece la relación de los datos, justificando por qué se obtuvieron y comparándolos con la teoría
+
+\addcontentsline{toc}{chapter}{Hoja de datos del documento}
+
+\makeatletter
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \caption{Información general del documento técnico}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Título del informe} & \@title \\ \hline
+        \textbf{Autor(es)} & \@author \\ \hline
+        \textbf{Fecha} & \@date \\ \hline
+        \textbf{Palabras clave} & \palabrasclave \\ \hline
+        \textbf{Resumen bibliográ.} & \resumendoc \\ \hline
+        \textbf{Lista de distribución} & Docente de la asignatura, \facultad, \institucion. \\ \hline
+    \end{tabular}
+\end{table}
+\makeatother
