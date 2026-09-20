@@ -1,0 +1,9 @@
+\chapter{Recomendaciones}
+
+Con base en los resultados obtenidos y la estructura implementada, se sugieren las siguientes acciones para el entorno de producción del sistema \supercite{elmasri2015fundamentals}:
+
+\begin{itemize}
+    \item \textbf{Implementación de respaldos automatizados:} Se sugiere establecer políticas y rutinas periódicas de copias de seguridad (\textit{backups}) en el servidor MySQL para salvaguardar la información transaccional ante eventuales fallos de hardware o software \supercite{schwartz2012high}.
+    \item \textbf{Optimización de consultas (Indexación):} A medida que el volumen de datos comerciales crezca, se recomienda la creación de índices adicionales en columnas de búsqueda frecuente (como fechas de ventas o nombres de productos) para mejorar los tiempos de respuesta \supercite{elmasri2015fundamentals}.
+    \item \textbf{Desarrollo de capa de aplicación (Interfaz):} Se aconseja construir una interfaz gráfica de usuario (GUI) o API que permita a los cajeros y administradores interactuar de manera segura con el motor de base de datos, restringiendo la manipulación directa del código SQL \supercite{sommerville2015software}.
+\end{itemize}

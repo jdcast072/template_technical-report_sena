@@ -1,0 +1,21 @@
+\chapter{Resultados}
+
+La implementación del modelo físico relacional para Importech S.A.S. se ejecutó de manera exitosa en el entorno de desarrollo utilizando el motor de base de datos MySQL \supercite{silberschatz2020}. A partir de la ejecución de los scripts mediante el Lenguaje de Definición de Datos (DDL) y el Lenguaje de Manipulación de Datos (DML), se obtuvieron los siguientes resultados:
+
+\begin{itemize}
+    \item \textbf{Estructuración de la base de datos}: Se crearon satisfactoriamente las tablas normalizadas principales y dependientes correspondientes a categorías, proveedores, clientes, productos, ventas, detalle de venta y tablas de atributos multivaluados para teléfonos. Para cada atributo se asignaron de manera óptima los tipos de datos requeridos, tales como \colorbox{gray!20}{\textcolor{lineText}{\texttt{VARCHAR}}} y \colorbox{gray!20}{\textcolor{lineText}{\texttt{DECIMAL}}}.
+    
+    \item \textbf{Consolidación de la integridad referencial}: Mediante la instrucción \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}}, se establecieron las relaciones lógicas de cardinalidad (1:N y N:M) a través de llaves foráneas \supercite{codd1970relational}, interconectando las entidades de ventas con clientes, los productos con sus respectivas categorías y proveedores, y las tablas intermedias.
+    
+    \item \textbf{Validación transaccional}: La inserción de registros base permitió simular un entorno operativo real de facturación y control de inventario \supercite{SENA}. Las pruebas realizadas mediante sentencias \colorbox{gray!20}{\textcolor{lineText}{\texttt{SELECT}}} (como el cálculo del ingreso total o el precio promedio), junto con las operaciones de actualización (\colorbox{gray!20}{\textcolor{lineText}{\texttt{UPDATE}}}) y eliminación (\colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}}), verificaron el correcto cumplimiento de las reglas del negocio.
+\end{itemize}
+
+% Inserción del diagrama ajustado para no desbordar verticalmente y ser legible
+\begin{center}
+    \vspace{0.3cm}
+    % Se define un ancho mayor para legibilidad, pero se limita la altura al 40% de la página
+    \includegraphics[width=0.85\textwidth, height=0.40\textheight, keepaspectratio]{assets/images/EER-import_tech.png}
+    
+    \vspace{0.2cm}
+    \fontsize{10}{12}\selectfont \textit{Figura 1. Modelo Relacional definitivo con Ing. Inversa de EER de Importech S.A.S.}
+\end{center}

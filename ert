@@ -1,0 +1,420 @@
+content/03-procedimiento.tex:1: trailing whitespace.
+[32m+[m[32m\chapter{Procedimiento}[m[41m[m
+content/03-procedimiento.tex:2: trailing whitespace.
+[32m+[m[32mEn esta sección se plasmará el procedimiento paso a paso para la creación e implementación de la base de datos mediante scripts SQL sus tablas y columnas mediante el \textbf{Lenguaje de Definición de Datos (DDL)} con la sentencia \colorbox{gray!20}{\textcolor{lineText}{\texttt{CREATE}}} y para la adición de nuevas columnas y llaves foraneas se realizará con \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}}. También se realizará los procesos de inserción, lectura, actualización y eliminación de los valores de los campos mediante el \textbf{Lenguaje de Manipulación de Datos (DML)}.[m[41m[m
+content/03-procedimiento.tex:4: trailing whitespace.
+[32m+[m[32m\section{Implementación de la base de datos, tablas y columnas con DDL}[m[41m[m
+content/03-procedimiento.tex:5: trailing whitespace.
+[32m+[m[32m\subsection{Inicio de conexión}[m[41m[m
+content/03-procedimiento.tex:6: trailing whitespace.
+[32m+[m[32mLo primero en realizar fue el ingreso al servidor de \textbf{Sistema de Gestión de Bases de Datos (SGDB)} de MySQL ya generado por la empresa en el ámbito de desarrollo y conectarse con un uno de sus usuarios ya existentes con altos privilegios al realizar las pruebas en el ámbito de desarrollo para después migrarlo a producción.[m[41m[m
+content/03-procedimiento.tex:7: trailing whitespace.
+[32m+[m[32m\begin{itemize}[m[41m[m
+content/03-procedimiento.tex:8: trailing whitespace.
+[32m+[m[32m    \item Conexión con el servidor:[m[41m[m
+content/03-procedimiento.tex:9: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=bash][m[41m[m
+content/03-procedimiento.tex:10: trailing whitespace.
+[32m+[m[32m    mysql -h [servidor-sql] -u [usuario] -p[m[41m[m
+content/03-procedimiento.tex:11: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:12: trailing whitespace.
+[32m+[m[32m    \item Salida de comando al ingresar correctamente al servidor:[m[41m[m
+content/03-procedimiento.tex:13: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=bash][m[41m[m
+content/03-procedimiento.tex:14: trailing whitespace.
+[32m+[m[32m    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.[m[41m[m
+content/03-procedimiento.tex:15: trailing whitespace.
+[32m+[m[32m    mysql>[m[41m[m
+content/03-procedimiento.tex:16: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:17: trailing whitespace.
+[32m+[m[32m\end{itemize}[m[41m[m
+content/03-procedimiento.tex:19: trailing whitespace.
+[32m+[m[32m\subsection{Creación y acceso a la Base de Datos}[m[41m[m
+content/03-procedimiento.tex:20: trailing whitespace.
+[32m+[m[32mDesde la herramienta de interfaz gráfica de Workbench conectado directamente al servidor, se procedió en ejecutar el siguiente comando para la creación y acceso a la base de datos:[m[41m[m
+content/03-procedimiento.tex:21: trailing whitespace.
+[32m+[m[32m\begin{itemize}[m[41m[m
+content/03-procedimiento.tex:22: trailing whitespace.
+[32m+[m[32m    \item Creación y acceso a la base de datos:[m[41m[m
+content/03-procedimiento.tex:23: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=SQL,morekeywords={USE, DATABASE}][m[41m[m
+content/03-procedimiento.tex:24: trailing whitespace.
+[32m+[m[32m    CREATE DATABASE import_tech;[m[41m[m
+content/03-procedimiento.tex:25: trailing whitespace.
+[32m+[m[32m    USE import_tech;[m[41m[m
+content/03-procedimiento.tex:26: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:27: trailing whitespace.
+[32m+[m[32m\end{itemize}[m[41m[m
+content/03-procedimiento.tex:29: trailing whitespace.
+[32m+[m[32m\subsection{Creación de las tablas y columnas}[m[41m[m
+content/03-procedimiento.tex:31: trailing whitespace.
+[32m+[m[32m\begin{enumerate}[m[41m[m
+content/03-procedimiento.tex:32: trailing whitespace.
+[32m+[m[32m    \item Creación de las tablas padre:[m[41m[m
+content/03-procedimiento.tex:33: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:34: trailing whitespace.
+[32m+[m[32mCREATE TABLE categoria([m[41m[m
+content/03-procedimiento.tex:35: trailing whitespace.
+[32m+[m[32m    id_categoria INT PRIMARY KEY AUTO_INCREMENT,[m[41m[m
+content/03-procedimiento.tex:36: trailing whitespace.
+[32m+[m[32m    nombre VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:37: trailing whitespace.
+[32m+[m[32m    descripcion VARCHAR(75)[m[41m[m
+content/03-procedimiento.tex:38: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:39: trailing whitespace.
+[32m+[m[32mCREATE TABLE proveedor ([m[41m[m
+content/03-procedimiento.tex:40: trailing whitespace.
+[32m+[m[32m    id_proveedor INT PRIMARY KEY AUTO_INCREMENT,[m[41m[m
+content/03-procedimiento.tex:41: trailing whitespace.
+[32m+[m[32m    NIT VARCHAR(20) UNIQUE NOT NULL,[m[41m[m
+content/03-procedimiento.tex:42: trailing whitespace.
+[32m+[m[32m    nombre VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:43: trailing whitespace.
+[32m+[m[32m    NIP VARCHAR(20) UNIQUE NOT NULL,[m[41m[m
+content/03-procedimiento.tex:44: trailing whitespace.
+[32m+[m[32m    web VARCHAR(125) UNIQUE,[m[41m[m
+content/03-procedimiento.tex:45: trailing whitespace.
+[32m+[m[32m    dir_ciudad VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:46: trailing whitespace.
+[32m+[m[32m    dir_barrio VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:47: trailing whitespace.
+[32m+[m[32m    dir_calle VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:48: trailing whitespace.
+[32m+[m[32m    dir_numero VARCHAR(45) NOT NULL[m[41m[m
+content/03-procedimiento.tex:49: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:50: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:51: trailing whitespace.
+[32m+[m[32mCREATE TABLE cliente ([m[41m[m
+content/03-procedimiento.tex:52: trailing whitespace.
+[32m+[m[32m    id_cliente INT PRIMARY KEY AUTO_INCREMENT,[m[41m[m
+content/03-procedimiento.tex:53: trailing whitespace.
+[32m+[m[32m    nombre VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:54: trailing whitespace.
+[32m+[m[32m    NIP VARCHAR(20) UNIQUE NOT NULL,[m[41m[m
+content/03-procedimiento.tex:55: trailing whitespace.
+[32m+[m[32m    web VARCHAR(255) UNIQUE,[m[41m[m
+content/03-procedimiento.tex:56: trailing whitespace.
+[32m+[m[32m    dir_ciudad VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:57: trailing whitespace.
+[32m+[m[32m    dir_barrio VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:58: trailing whitespace.
+[32m+[m[32m    dir_calle VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:59: trailing whitespace.
+[32m+[m[32m    dir_numero VARCHAR(45) NOT NULL[m[41m[m
+content/03-procedimiento.tex:60: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:61: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:62: trailing whitespace.
+[32m+[m[32m    \item Creación de las tablas hija:[m[41m[m
+content/03-procedimiento.tex:63: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:64: trailing whitespace.
+[32m+[m[32mCREATE TABLE productos ([m[41m[m
+content/03-procedimiento.tex:65: trailing whitespace.
+[32m+[m[32m    id_producto INT PRIMARY KEY AUTO_INCREMENT,[m[41m[m
+content/03-procedimiento.tex:66: trailing whitespace.
+[32m+[m[32m    nombre VARCHAR(45) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:67: trailing whitespace.
+[32m+[m[32m    precio DECIMAL(10,2) NOT NULL,[m[41m[m
+content/03-procedimiento.tex:68: trailing whitespace.
+[32m+[m[32m    stock INT NOT NULL DEFAULT 0[m[41m[m
+content/03-procedimiento.tex:69: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:70: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:71: trailing whitespace.
+[32m+[m[32mCREATE TABLE ventas ([m[41m[m
+content/03-procedimiento.tex:72: trailing whitespace.
+[32m+[m[32m    n_factura INT PRIMARY KEY AUTO_INCREMENT,[m[41m[m
+content/03-procedimiento.tex:73: trailing whitespace.
+[32m+[m[32m    descuento DECIMAL(10,2),[m[41m[m
+content/03-procedimiento.tex:74: trailing whitespace.
+[32m+[m[32m    monto_final DECIMAL(10,2),[m[41m[m
+content/03-procedimiento.tex:75: trailing whitespace.
+[32m+[m[32m    fecha DATETIME[m[41m[m
+content/03-procedimiento.tex:76: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:77: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:78: trailing whitespace.
+[32m+[m[32m    \item Creación de la tabla intermedia:[m[41m[m
+content/03-procedimiento.tex:79: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:80: trailing whitespace.
+[32m+[m[32mCREATE TABLE detalle_venta ([m[41m[m
+content/03-procedimiento.tex:81: trailing whitespace.
+[32m+[m[32mcantidad_unidad INT NOT NULL DEFAULT 0,[m[41m[m
+content/03-procedimiento.tex:82: trailing whitespace.
+[32m+[m[32mmonto_total DECIMAL(10,2) NOT NULL[m[41m[m
+content/03-procedimiento.tex:83: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:84: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:85: trailing whitespace.
+[32m+[m[32m    \item Creación de las tablas teléfono de atributos multivaluados para cliente y proveedor:[m[41m[m
+content/03-procedimiento.tex:86: trailing whitespace.
+[32m+[m[32m    \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:87: trailing whitespace.
+[32m+[m[32mCREATE TABLE telefono_proveedor ([m[41m[m
+content/03-procedimiento.tex:88: trailing whitespace.
+[32m+[m[32m    id_telefono INT PRIMARY KEY,[m[41m[m
+content/03-procedimiento.tex:89: trailing whitespace.
+[32m+[m[32m    numero_telefono VARCHAR(10)[m[41m[m
+content/03-procedimiento.tex:90: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:91: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:92: trailing whitespace.
+[32m+[m[32mCREATE TABLE telefono_cliente ([m[41m[m
+content/03-procedimiento.tex:93: trailing whitespace.
+[32m+[m[32m    id_telefono INT PRIMARY KEY,[m[41m[m
+content/03-procedimiento.tex:94: trailing whitespace.
+[32m+[m[32m    numero_telefono VARCHAR(10)[m[41m[m
+content/03-procedimiento.tex:95: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:96: trailing whitespace.
+[32m+[m[32m    \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:97: trailing whitespace.
+[32m+[m[32m\end{enumerate}[m[41m[m
+content/03-procedimiento.tex:98: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:99: trailing whitespace.
+[32m+[m[32m\subsection{Adición de columnas y claves foraneas}[m[41m[m
+content/03-procedimiento.tex:100: trailing whitespace.
+[32m+[m[32mPara esta sección se uso la instancia \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}} demostrando el uso alterno de crear las columnas para su respectiva llave foranea. En este caso, se ordenará según su cardinalidad.[m[41m[m
+content/03-procedimiento.tex:101: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:102: trailing whitespace.
+[32m+[m[32m\begin{enumerate}[m[41m[m
+content/03-procedimiento.tex:103: trailing whitespace.
+[32m+[m[32m    \item \textbf{Cardinalidad: Uno a Muchos (1:N)}[m[41m[m
+content/03-procedimiento.tex:104: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:105: trailing whitespace.
+[32m+[m[32m    \begin{itemize}[m[41m[m
+content/03-procedimiento.tex:106: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA ventas:} Relación cliente a ventas[m[41m[m
+content/03-procedimiento.tex:107: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:108: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:109: trailing whitespace.
+[32m+[m[32mALTER TABLE ventas[m[41m[m
+content/03-procedimiento.tex:110: trailing whitespace.
+[32m+[m[32mADD COLUMN cliente_id_cliente INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:111: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:112: trailing whitespace.
+[32m+[m[32mALTER TABLE ventas[m[41m[m
+content/03-procedimiento.tex:113: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_venta_cliente[m[41m[m
+content/03-procedimiento.tex:114: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (cliente_id_cliente)[m[41m[m
+content/03-procedimiento.tex:115: trailing whitespace.
+[32m+[m[32mREFERENCES cliente(id_cliente);[m[41m[m
+content/03-procedimiento.tex:116: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:117: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:118: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:119: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA productos:} Relación productos a categoria[m[41m[m
+content/03-procedimiento.tex:120: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:121: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:122: trailing whitespace.
+[32m+[m[32mALTER TABLE productos[m[41m[m
+content/03-procedimiento.tex:123: trailing whitespace.
+[32m+[m[32mADD COLUMN categoria_id_categoria INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:124: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:125: trailing whitespace.
+[32m+[m[32mALTER TABLE productos[m[41m[m
+content/03-procedimiento.tex:126: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_producto_categoria[m[41m[m
+content/03-procedimiento.tex:127: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (categoria_id_categoria)[m[41m[m
+content/03-procedimiento.tex:128: trailing whitespace.
+[32m+[m[32mREFERENCES categoria(id_categoria);[m[41m[m
+content/03-procedimiento.tex:129: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:130: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:131: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:132: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA productos:} Relación productos a proveedor[m[41m[m
+content/03-procedimiento.tex:133: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:134: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:135: trailing whitespace.
+[32m+[m[32mALTER TABLE productos[m[41m[m
+content/03-procedimiento.tex:136: trailing whitespace.
+[32m+[m[32mADD COLUMN proveedor_id_proveedor INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:137: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:138: trailing whitespace.
+[32m+[m[32mALTER TABLE productos[m[41m[m
+content/03-procedimiento.tex:139: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_producto_proveedor[m[41m[m
+content/03-procedimiento.tex:140: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (proveedor_id_proveedor)[m[41m[m
+content/03-procedimiento.tex:141: trailing whitespace.
+[32m+[m[32mREFERENCES proveedor(id_proveedor);[m[41m[m
+content/03-procedimiento.tex:142: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:143: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:144: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:145: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA telefono\_proveedor:} Atributo compuesto de varios números telefónicos[m[41m[m
+content/03-procedimiento.tex:146: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:147: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:148: trailing whitespace.
+[32m+[m[32mALTER TABLE telefono_proveedor[m[41m[m
+content/03-procedimiento.tex:149: trailing whitespace.
+[32m+[m[32mADD COLUMN proveedor_id_proveedor INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:150: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:151: trailing whitespace.
+[32m+[m[32mALTER TABLE telefono_proveedor[m[41m[m
+content/03-procedimiento.tex:152: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_telefono_preveedor[m[41m[m
+content/03-procedimiento.tex:153: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (proveedor_id_proveedor)[m[41m[m
+content/03-procedimiento.tex:154: trailing whitespace.
+[32m+[m[32mREFERENCES proveedor(id_proveedor);[m[41m[m
+content/03-procedimiento.tex:155: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:156: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:157: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:158: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:159: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA telefono\_cliente:} Atributo compuesto de varios números telefónicos[m[41m[m
+content/03-procedimiento.tex:160: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:161: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:162: trailing whitespace.
+[32m+[m[32mALTER TABLE telefono_cliente[m[41m[m
+content/03-procedimiento.tex:163: trailing whitespace.
+[32m+[m[32mADD COLUMN cliente_id_cliente INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:164: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:165: trailing whitespace.
+[32m+[m[32mALTER TABLE telefono_cliente[m[41m[m
+content/03-procedimiento.tex:166: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_telefono_cliente[m[41m[m
+content/03-procedimiento.tex:167: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (cliente_id_cliente)[m[41m[m
+content/03-procedimiento.tex:168: trailing whitespace.
+[32m+[m[32mREFERENCES cliente(id_cliente);[m[41m[m
+content/03-procedimiento.tex:169: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:170: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:171: trailing whitespace.
+[32m+[m[32m    \end{itemize}[m[41m[m
+content/03-procedimiento.tex:172: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:173: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:174: trailing whitespace.
+[32m+[m[32m    \item \textbf{Cardinalidad: Varios a Muchos (N:M)}[m[41m[m
+content/03-procedimiento.tex:175: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:176: trailing whitespace.
+[32m+[m[32m    \begin{itemize}[m[41m[m
+content/03-procedimiento.tex:177: trailing whitespace.
+[32m+[m[32m        \item \textbf{TABLA INTERMEDIA detalle\_venta}[m[41m[m
+content/03-procedimiento.tex:178: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:179: trailing whitespace.
+[32m+[m[32m        \begin{lstlisting}[language=SQL][m[41m[m
+content/03-procedimiento.tex:180: trailing whitespace.
+[32m+[m[32m-- Primera llave foranea hacia ventas de n_factura[m[41m[m
+content/03-procedimiento.tex:181: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:182: trailing whitespace.
+[32m+[m[32mALTER TABLE detalle_venta[m[41m[m
+content/03-procedimiento.tex:183: trailing whitespace.
+[32m+[m[32mADD COLUMN ventas_n_factura INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:184: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:185: trailing whitespace.
+[32m+[m[32mALTER TABLE detalle_venta[m[41m[m
+content/03-procedimiento.tex:186: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_detalle_ventas[m[41m[m
+content/03-procedimiento.tex:187: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (ventas_n_factura)[m[41m[m
+content/03-procedimiento.tex:188: trailing whitespace.
+[32m+[m[32mREFERENCES ventas(n_factura);[m[41m[m
+content/03-procedimiento.tex:189: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:190: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:191: trailing whitespace.
+[32m+[m[32m-- Segunda llave foranea hacia productos[m[41m[m
+content/03-procedimiento.tex:192: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:193: trailing whitespace.
+[32m+[m[32mALTER TABLE detalle_venta[m[41m[m
+content/03-procedimiento.tex:194: trailing whitespace.
+[32m+[m[32mADD COLUMN productos_id_producto INT NOT NULL;[m[41m[m
+content/03-procedimiento.tex:195: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:196: trailing whitespace.
+[32m+[m[32mALTER TABLE detalle_venta[m[41m[m
+content/03-procedimiento.tex:197: trailing whitespace.
+[32m+[m[32mADD CONSTRAINT fk_detalle_producto[m[41m[m
+content/03-procedimiento.tex:198: trailing whitespace.
+[32m+[m[32mFOREIGN KEY (productos_id_producto)[m[41m[m
+content/03-procedimiento.tex:199: trailing whitespace.
+[32m+[m[32mREFERENCES productos(id_producto);[m[41m[m
+content/03-procedimiento.tex:200: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:201: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:202: trailing whitespace.
+[32m+[m[32m-- Agregar la propiedad PK a las FK[m[41m[m
+content/03-procedimiento.tex:203: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:204: trailing whitespace.
+[32m+[m[32mALTER TABLE detalle_venta[m[41m[m
+content/03-procedimiento.tex:205: trailing whitespace.
+[32m+[m[32mADD PRIMARY KEY ([m[41m[m
+content/03-procedimiento.tex:206: trailing whitespace.
+[32m+[m[32m    ventas_n_factura,[m[41m[m
+content/03-procedimiento.tex:207: trailing whitespace.
+[32m+[m[32m    productos_id_producto[m[41m[m
+content/03-procedimiento.tex:208: trailing whitespace.
+[32m+[m[32m);[m[41m[m
+content/03-procedimiento.tex:209: trailing whitespace.
+[32m+[m[32m        \end{lstlisting}[m[41m[m
+content/03-procedimiento.tex:210: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:211: trailing whitespace.
+[32m+[m[32m    \end{itemize}[m[41m[m
+content/03-procedimiento.tex:212: trailing whitespace.
+[32m+[m[41m[m
+content/03-procedimiento.tex:213: trailing whitespace.
+[32m+[m[32m\end{enumerate}[m[41m[m
+content/03-procedimiento.tex:214: trailing whitespace.
+[32m+[m[41m[m

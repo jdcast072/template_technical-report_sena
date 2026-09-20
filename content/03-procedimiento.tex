@@ -1,8 +1,524 @@
-\section{Procedimiento}
-(Nota: Suele ir embebido en la metodología). Detalla el paso a paso o "muestra de cálculo" de una corrida representativa
+\chapter{Procedimiento}
+En esta sección se plasmará el procedimiento paso a paso para la creación e implementación de la base de datos mediante scripts SQL sus tablas y columnas mediante el \textbf{Lenguaje de Definición de Datos (DDL)} con la sentencia \colorbox{gray!20}{\textcolor{lineText}{\texttt{CREATE}}} y para la adición de nuevas columnas y llaves foraneas se realizará con \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}}. También se realizará los procesos de inserción, lectura, actualización y eliminación de los valores de los campos mediante el \textbf{Lenguaje de Manipulación de Datos (DML)}.
+
+\section{Implementación de la base de datos, tablas y columnas con DDL}
+\subsection{Inicio de conexión}
+Lo primero en realizar fue el ingreso al servidor de \textbf{Sistema de Gestión de Bases de Datos (SGDB)} de MySQL ya generado por la empresa en el ámbito de desarrollo y conectarse con un uno de sus usuarios ya existentes con altos privilegios al realizar las pruebas en el ámbito de desarrollo para después migrarlo a producción.
+\begin{itemize}
+    \item Conexión con el servidor:
+    \begin{lstlisting}[language=bash]
+    mysql -h [servidor-sql] -u [usuario] -p
+    \end{lstlisting}
+    \item Salida de comando al ingresar correctamente al servidor:
+    \begin{lstlisting}[language=bash]
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+    mysql>
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Creación y acceso a la Base de Datos}
+Desde la herramienta de interfaz gráfica de Workbench conectado directamente al servidor, se procedió en ejecutar el siguiente comando para la creación y acceso a la base de datos:
+\begin{itemize}
+    \item Creación y acceso a la base de datos:
+    \begin{lstlisting}
+    CREATE DATABASE import_tech;
+    USE import_tech;
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{Creación de las tablas y columnas}
+
+\begin{enumerate}
+    \item Creación de las tablas padre:
+    \begin{lstlisting}
+CREATE TABLE categoria(
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    descripcion VARCHAR(75)
+);
+CREATE TABLE proveedor (
+    id_proveedor INT PRIMARY KEY AUTO_INCREMENT,
+    NIT VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(45) NOT NULL,
+    NIP VARCHAR(20) UNIQUE NOT NULL,
+    web VARCHAR(125) UNIQUE,
+    dir_ciudad VARCHAR(45) NOT NULL,
+    dir_barrio VARCHAR(45) NOT NULL,
+    dir_calle VARCHAR(45) NOT NULL,
+    dir_numero VARCHAR(45) NOT NULL
+);
+
+CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    NIP VARCHAR(20) UNIQUE NOT NULL,
+    web VARCHAR(255) UNIQUE,
+    dir_ciudad VARCHAR(45) NOT NULL,
+    dir_barrio VARCHAR(45) NOT NULL,
+    dir_calle VARCHAR(45) NOT NULL,
+    dir_numero VARCHAR(45) NOT NULL
+);
+    \end{lstlisting}
+    \item Creación de las tablas hija:
+    \begin{lstlisting}
+CREATE TABLE productos (
+    id_producto INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE ventas (
+    n_factura INT PRIMARY KEY AUTO_INCREMENT,
+    descuento DECIMAL(10,2),
+    monto_final DECIMAL(10,2),
+    fecha DATETIME
+);
+    \end{lstlisting}
+    \item Creación de la tabla intermedia:
+    \begin{lstlisting}
+CREATE TABLE detalle_venta (
+cantidad_unidad INT NOT NULL DEFAULT 0,
+monto_total DECIMAL(10,2) NOT NULL
+);
+    \end{lstlisting}
+    \item Creación de las tablas teléfono de atributos multivaluados para cliente y proveedor:
+    \begin{lstlisting}
+CREATE TABLE telefono_proveedor (
+    id_telefono INT PRIMARY KEY,
+    numero_telefono VARCHAR(10)
+);
+
+CREATE TABLE telefono_cliente (
+    id_telefono INT PRIMARY KEY,
+    numero_telefono VARCHAR(10)
+);
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{Adición de columnas y claves foraneas}
+Para esta sección se uso la instancia \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}} demostrando el uso alterno de crear las columnas para su respectiva llave foranea. En este caso, se ordenará según su cardinalidad.
+
+\begin{enumerate}
+    \item \textbf{Cardinalidad: Uno a Muchos (1:N)}
+
+    \begin{itemize}
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{ventas}}}:} Relación cliente a ventas
+
+        \begin{lstlisting}
+ALTER TABLE ventas
+ADD COLUMN cliente_id_cliente INT NOT NULL;
+
+ALTER TABLE ventas
+ADD CONSTRAINT fk_venta_cliente
+FOREIGN KEY (cliente_id_cliente)
+REFERENCES cliente(id_cliente);
+        \end{lstlisting}
 
 
-\input{assets/tables/table-02.tex}
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}Relación productos a categoria
+
+        \begin{lstlisting}
+ALTER TABLE productos
+ADD COLUMN categoria_id_categoria INT NOT NULL;
+
+ALTER TABLE productos
+ADD CONSTRAINT fk_producto_categoria
+FOREIGN KEY (categoria_id_categoria)
+REFERENCES categoria(id_categoria);
+        \end{lstlisting}
 
 
-La aplicación de las normas de citación contribuye a documentar las fuentes consultadas \supercite{normaAPA7}.
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:} Relación productos a proveedor
+
+        \begin{lstlisting}
+ALTER TABLE productos
+ADD COLUMN proveedor_id_proveedor INT NOT NULL;
+
+ALTER TABLE productos
+ADD CONSTRAINT fk_producto_proveedor
+FOREIGN KEY (proveedor_id_proveedor)
+REFERENCES proveedor(id_proveedor);
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{telefono\_proveedor}}}:} Atributo compuesto de varios números telefónicos
+
+        \begin{lstlisting}
+ALTER TABLE telefono_proveedor
+ADD COLUMN proveedor_id_proveedor INT NOT NULL;
+
+ALTER TABLE telefono_proveedor
+ADD CONSTRAINT fk_telefono_preveedor
+FOREIGN KEY (proveedor_id_proveedor)
+REFERENCES proveedor(id_proveedor);
+        \end{lstlisting}
+
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{telefono\_cliente}}}:} Atributo compuesto de varios números telefónicos
+
+        \begin{lstlisting}
+ALTER TABLE telefono_cliente
+ADD COLUMN cliente_id_cliente INT NOT NULL;
+
+ALTER TABLE telefono_cliente
+ADD CONSTRAINT fk_telefono_cliente
+FOREIGN KEY (cliente_id_cliente)
+REFERENCES cliente(id_cliente);
+        \end{lstlisting}
+
+    \end{itemize}
+
+
+    \item \textbf{Cardinalidad: Varios a Muchos (N:M)}
+
+    \begin{itemize}
+        \item \textbf{TABLA INTERMEDIA \colorbox{gray!20}{\textcolor{lineText}{\texttt{detalle\_venta}}}:}
+
+        \begin{lstlisting}
+-- Primera llave foranea hacia ventas de n_factura
+
+ALTER TABLE detalle_venta
+ADD COLUMN ventas_n_factura INT NOT NULL;
+
+ALTER TABLE detalle_venta
+ADD CONSTRAINT fk_detalle_ventas
+FOREIGN KEY (ventas_n_factura)
+REFERENCES ventas(n_factura);
+
+
+-- Segunda llave foranea hacia productos
+
+ALTER TABLE detalle_venta
+ADD COLUMN productos_id_producto INT NOT NULL;
+
+ALTER TABLE detalle_venta
+ADD CONSTRAINT fk_detalle_producto
+FOREIGN KEY (productos_id_producto)
+REFERENCES productos(id_producto);
+        \end{lstlisting}
+
+    \end{itemize}
+\item Agregar la propiedad PK a las FK para añadir la \textbf{integridad relacional} en estas columnas, evitando la duplicidad de \textbf{\colorbox{gray!20}{\textcolor{lineText}{\texttt{IDs}}}} y que los valores no lleguen a ser nulos:
+\begin{lstlisting}[captionpos=b,caption={Nota: esto solo aplica a las tablas intermedias al no tener una \textbf{\colorbox{gray!20}{\textcolor{lineText}{\texttt{PK}}}} principal.}]
+ALTER TABLE detalle_venta ADD PRIMARY KEY (ventas_n_factura, productos_id_producto);
+\end{lstlisting}
+\end{enumerate}
+
+```latex
+\section{Inserción de datos con DML}
+
+En esta sección se aplicará el \textbf{Lenguaje de Manipulación de Datos (DML)}
+para realizar las operaciones de inserción, consulta, actualización y eliminación
+de registros sobre las tablas de la base de datos \texttt{import\_tech}. Estas
+operaciones permiten manipular los datos almacenados mediante las sentencias
+\colorbox{gray!20}{\textcolor{lineText}{\texttt{INSERT}}},
+\colorbox{gray!20}{\textcolor{lineText}{\texttt{SELECT}}},
+\colorbox{gray!20}{\textcolor{lineText}{\texttt{UPDATE}}} y
+\colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}}.
+
+
+\begin{enumerate}
+
+    % ============================================================
+    % 1. INSERCIÓN DE DATOS
+    % ============================================================
+
+    \item \textbf{Inserción de datos mediante \colorbox{gray!20}{\textcolor{lineText}{\texttt{INSERT}}}}
+
+    Para realizar la inserción de los registros se tuvo en cuenta la dependencia
+    existente entre las tablas. Primero se insertaron los registros de las tablas
+    padre y posteriormente los registros de las tablas que dependen de ellas.
+
+    \begin{itemize}
+
+        % --------------------------------------------------------
+        % TABLA categoria
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{categoria}}}:}
+        Inserción de las categorías de productos.
+
+        \begin{lstlisting}
+INSERT INTO categoria (nombre, descripcion) VALUES
+('Portátiles', 'Computadores portátiles de uso personal y corporativo'),
+('Periféricos', 'Teclados, mouses, diademas y accesorios');
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA proveedor
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{proveedor}}}:}
+        Inserción de los proveedores.
+
+        \begin{lstlisting}
+INSERT INTO proveedor
+(NIT, nombre, NIP, web, dir_ciudad, dir_barrio, dir_calle, dir_numero)
+VALUES
+('800111222-1', 'TechDistribuciones', '11111111',
+ 'www.techdist.com', 'Bogotá', 'Chapinero', 'Calle 67', '14-22'),
+('800333444-2', 'Global PC Parts', '22222222',
+ 'www.globalpc.com', 'Medellín', 'El Poblado', 'Carrera 43A', '1-50');
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA cliente
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{cliente}}}:}
+        Inserción de los clientes.
+
+        \begin{lstlisting}
+INSERT INTO cliente
+(nombre, NIP, web, dir_ciudad, dir_barrio, dir_calle, dir_numero)
+VALUES
+('Juan Pérez', '1098765432', 'www.juanp.com',
+ 'Bogotá', 'Suba', 'Calle 145', '104-20'),
+('María Gómez', '1098123456', NULL,
+ 'Medellín', 'Belen', 'Calle 30', '80-15');
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA productos
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Inserción de productos asociados a categorías y proveedores existentes.
+
+        \begin{lstlisting}
+INSERT INTO productos
+(nombre, precio, stock, categoria_id_categoria, proveedor_id_proveedor)
+VALUES
+('Portátil Lenovo ThinkPad', 3500000.00, 15, 1, 1),
+('Mouse Inalámbrico Logitech', 85000.00, 100, 2, 2);
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA ventas
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{ventas}}}:}
+        Inserción de las ventas asociadas a clientes existentes.
+
+        \begin{lstlisting}
+INSERT INTO ventas
+(descuento, monto_final, fecha, cliente_id_cliente)
+VALUES
+(0.00, 3585000.00, '2023-10-01 10:30:00', 1),
+(10000.00, 340000.00, '2023-10-02 11:15:00', 2);
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA detalle_venta
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA INTERMEDIA \colorbox{gray!20}{\textcolor{lineText}{\texttt{detalle\_venta}}}:}
+        Inserción de los registros correspondientes a la relación N:M entre ventas y productos.
+
+        \begin{lstlisting}
+INSERT INTO detalle_venta
+(ventas_n_factura, productos_id_producto, cantidad_unidad, monto_total)
+VALUES
+(1, 1, 1, 3500000.00),
+(1, 2, 1, 85000.00);
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA telefono_cliente
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{telefono\_cliente}}}:}
+        Inserción de los números telefónicos asociados a los clientes.
+
+        \begin{lstlisting}
+INSERT INTO telefono_cliente
+(id_telefono, numero_telefono, cliente_id_cliente)
+VALUES
+(1, '3101112233', 1),
+(2, '3204445566', 1);
+        \end{lstlisting}
+
+
+        % --------------------------------------------------------
+        % TABLA telefono_proveedor
+        % --------------------------------------------------------
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{telefono\_proveedor}}}:}
+        Inserción de los números telefónicos asociados a los proveedores.
+
+        \begin{lstlisting}
+INSERT INTO telefono_proveedor
+(id_telefono, numero_telefono, proveedor_id_proveedor)
+VALUES
+(1, '3001234567', 1),
+(2, '3017654321', 1);
+        \end{lstlisting}
+
+    \end{itemize}
+
+
+    % ============================================================
+    % 2. CONSULTA DE DATOS
+    % ============================================================
+
+    \item \textbf{Consulta de datos mediante \colorbox{gray!20}{\textcolor{lineText}{\texttt{SELECT}}}}
+
+    Para verificar y consultar la información almacenada en la base de datos,
+    se ejecutaron diferentes sentencias \colorbox{gray!20}{\textcolor{lineText}{\texttt{SELECT}}}
+    utilizando operaciones de unión, ordenamiento, funciones de agregación y filtros.
+
+    \begin{itemize}
+        \item \textbf{Consulta de datos mediante \colorbox{gray!20}{\textcolor{lineText}{\texttt{JOIN}}}} para relacionar clientes con sus respectivas facturas.
+        \begin{lstlisting}
+SELECT c.nombre, v.n_factura
+FROM cliente AS c
+JOIN ventas AS v
+    ON c.id_cliente = v.cliente_id_cliente;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Consulta de los diez productos con mayor precio.
+
+        \begin{lstlisting}
+SELECT nombre, precio
+FROM productos
+ORDER BY precio DESC
+LIMIT 10;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}}: Conteo de la cantidad total de productos registrados.
+
+        \begin{lstlisting}
+SELECT COUNT(*) AS total_productos
+FROM productos;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{ventas}}}:}
+        Cálculo del ingreso total de las ventas.
+
+        \begin{lstlisting}
+SELECT SUM(montoFinal) AS ingreso_total
+FROM Venta;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Cálculo del precio promedio de los productos.
+
+        \begin{lstlisting}
+SELECT AVG(precio) AS precio_promedio
+FROM productos;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Obtención del precio máximo y mínimo.
+
+        \begin{lstlisting}
+SELECT MAX(precio) AS precio_maximo,
+       MIN(precio) AS precio_minimo
+FROM productos;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:} Filtrado de productos mediante el operador
+        \colorbox{gray!20}{\textcolor{lineText}{\texttt{BETWEEN}}}.
+
+        \begin{lstlisting}
+SELECT nombre, precio
+FROM Producto
+WHERE precio BETWEEN 50000 AND 200000;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{cliente}}}:}
+        Búsqueda de clientes cuyo nombre comienza con la letra ``A''.
+
+        \begin{lstlisting}
+SELECT *
+FROM cliente
+WHERE nombre LIKE 'A%';
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Filtrado de productos mediante el operador
+        \colorbox{gray!20}{\textcolor{lineText}{\texttt{IN}}}.
+
+        \begin{lstlisting}
+SELECT *
+FROM productos
+WHERE categoria_id_categoria IN (1, 3, 5);
+        \end{lstlisting}
+
+    \end{itemize}
+
+
+    % ============================================================
+    % 3. ACTUALIZACIÓN DE DATOS
+    % ============================================================
+
+    \item \textbf{Actualización de datos mediante \colorbox{gray!20}{\textcolor{lineText}{\texttt{UPDATE}}}}
+
+    La sentencia \colorbox{gray!20}{\textcolor{lineText}{\texttt{UPDATE}}}
+    permite modificar los valores almacenados en registros específicos de las tablas.
+
+    \begin{itemize}
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Actualización del precio de un producto específico.
+
+        \begin{lstlisting}
+UPDATE productos
+SET precio = 1250000
+WHERE id_producto = 5;
+        \end{lstlisting}
+
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{cliente}}}:}
+        Actualización de la dirección de un cliente específico.
+
+        \begin{lstlisting}
+UPDATE cliente
+SET dir_calle = 'Calle 100 # 15-45',
+    dirCiudad = 'Bogotá'
+WHERE id_cliente = 5;
+        \end{lstlisting}
+
+    \end{itemize}
+
+
+    % ============================================================
+    % 4. ELIMINACIÓN DE DATOS
+    % ============================================================
+
+    \item \textbf{Eliminación de datos mediante \colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}}}
+
+    Finalmente, se realiza la eliminación de un registro específico mediante
+    la sentencia \colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}},
+    utilizando una condición que identifica el registro que será eliminado.
+
+    \begin{itemize}
+
+        \item \textbf{TABLA \colorbox{gray!20}{\textcolor{lineText}{\texttt{productos}}}:}
+        Eliminación de un producto específico del inventario.
+
+        \begin{lstlisting}
+DELETE FROM productos
+WHERE id_producto = 12;
+        \end{lstlisting}
+
+    \end{itemize}
+
+\end{enumerate}

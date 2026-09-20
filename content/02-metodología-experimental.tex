@@ -1,17 +1,7 @@
 \chapter{Metodología}
-Es el método de trabajo. Explica en tiempo pasado cómo se recogieron los datos y los pasos de la práctica para que pueda ser replicada
-
-\input{assets/tables/table-01.tex}
-
-\begin{verbatim}
-def saludar():
-    print("Hola Mundo")
-\end{verbatim}
-
-\begin{lstlisting}[language=SQL]
--- Consulta para obtener los usuarios mayores de edad
-SELECT id_usuario, nombre, correo
-FROM usuarios
-WHERE edad >= 18
-ORDER BY fecha_registro DESC;
-\end{lstlisting}
+El desarrollo del trabajo se ejecutó bajo un enfoque técnico, estructurado y documentado en tercera persona e impersonal, siguiendo las fases metódicas orientadas a la ingeniería de software y bases de datos:
+\begin{enumerate}
+    \item \textbf{Fase de Análisis de Requerimientos}: Se recopilaron las necesidades operativas de Importech S.A.S., identificando las entidades críticas del negocio: Proveedores, Clientes, Categorías, Productos, Ventas y los detalles asociados a las transacciones, así como la gestión de atributos multivaluados (teléfonos de contacto).
+    \item \textbf{Modelado Conceptual y Lógico}: A partir de los requerimientos, se definieron las entidades, atributos y relaciones de cardinalidad (1:N y N:M), estructurando el diagrama relacional lógico normalizado hasta la tercera forma normal (3NF) para evitar redundancias y anomalías de actualización.
+    \item \textbf{Diseño del Modelo Físico}: Se establecieron los tipos de datos óptimos para cada atributo (ej. \colorbox{gray!20}{\textcolor{lineText}{\texttt{ITEM}}}, \colorbox{gray!20}{\textcolor{lineText}{\texttt{VARCHAR}}}, \colorbox{gray!20}{\textcolor{lineText}{\texttt{DECIMAL}}}, \colorbox{gray!20}{\textcolor{lineText}{\texttt{DATE}}}) y se determinaron las restricciones de integridad correspondientes en el \textbf{Sistema de Gestión de Bases de Datos (SGBD).}
+\end{enumerate}
