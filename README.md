@@ -115,16 +115,19 @@ Centraliza los paquetes usados por el documento:
 
 - `babel`, `inputenc` y `fontenc` configuran el idioma español y la codificación.
 - `geometry` establece papel carta y márgenes de 3 cm arriba y abajo, 4 cm a la izquierda y 2 cm a la derecha.
-- `graphicx` permite insertar imágenes.
+- `graphicx` permite insertar y ajustar imágenes.
 - `tabularx`, `array` y `booktabs` proporcionan tablas flexibles y líneas profesionales.
 - `float` habilita el especificador `[H]` para fijar la posición de tablas o imágenes.
+- `csquotes` gestiona las comillas y `amsmath` proporciona herramientas para fórmulas matemáticas.
+- `lmodern` y `helvet` cargan familias tipográficas disponibles para el documento.
 - `caption` controla el formato de títulos de tablas y figuras.
+- `listings` permite insertar código fuente formateado.
 - `titlesec` y `tocloft` personalizan capítulos e índice.
 - `xcolor` y `tikz` construyen los elementos visuales de la portada.
 - `hyperref` y `bookmark` crean enlaces y marcadores del PDF.
 - `biblatex` con `biber` administra las referencias de `bibliography/references.bib`.
 
-La bibliografía está configurada con estilo `numeric` y orden `nty`, por lo que las citas aparecen numeradas y las referencias se ordenan por nombre, título y año. El proyecto solicita como mínimo tres fuentes válidas.
+La bibliografía está configurada con estilo `ieee`, idioma español, orden `nty` y un máximo de dos nombres en las citas. El proyecto solicita como mínimo tres fuentes válidas.
 
 La opción `hidelinks` aparece en la clase de `main.tex` y en los metadatos para evitar recuadros predeterminados. Posteriormente, `config/settings.tex` aplica `colorlinks=true` y define los colores finales de citas, enlaces internos y URL. Por eso, cualquier cambio visual de los enlaces debe hacerse en `\hypersetup` y no editando cada cita manualmente.
 
@@ -136,10 +139,15 @@ Define el aspecto general del informe:
 - Ajusta la separación vertical de los capítulos.
 - Muestra los capítulos y las secciones hasta la profundidad configurada en el índice.
 - Declara los colores institucionales `greenPrimary` y `greenLight`.
-- Configura los títulos de tabla para mostrar `Tabla X` en negrita, el título en una línea independiente y el texto del título en cursiva.
-- Activa enlaces coloreados: citas en `greenPrimary`, enlaces internos en negro y URL en negro.
+- Define el color `lineText` para elementos de texto relacionados con el código.
+- Define el formato del título del índice y agrega puntos guía para los capítulos.
+- Activa enlaces coloreados: citas con `lineText`, enlaces internos en negro y URL en negro.
+- Define `\codigo{}` para mostrar texto corto con formato de código dentro de una caja de color.
 - Define las columnas reutilizables `L`, `C` y `R` para `tabularx`.
 - Define `\rb` como atajo para salto de fila con línea horizontal.
+- Configura `listings` con fondo, texto, palabras reservadas, márgenes y saltos de línea para los bloques de código.
+- Establece SQL como lenguaje predeterminado, agrega palabras clave SQL y adapta caracteres del español mediante `literate`.
+- Elimina la etiqueta automática de los títulos de `lstlisting` y cambia su nombre a `Nota`.
 - Convierte los apellidos de las referencias a mayúsculas mediante `\mkbibnamefamily`.
 
 Las columnas personalizadas se declaran así:
@@ -265,10 +273,12 @@ El estilo actual usa:
 - Fondo oscuro `notiondark` y texto claro `notiontext`.
 - Fuente monoespaciada pequeña mediante `\ttfamily\small`.
 - Palabras reservadas en azul mediante `notionkeyword`.
-- Números de línea en el margen izquierdo con `numbers=left`.
+- Sin números de línea mediante `numbers=none`.
 - Sin marco exterior (`frame=none`) y con márgenes horizontales internos.
 - Salto automático de líneas largas con `breaklines=true`.
 - Detección de palabras clave sin distinguir mayúsculas y minúsculas mediante `sensitive=false`.
+- SQL como lenguaje predeterminado y `REFERENCES`, `USE`, `DATABASE` y `ERROR` como palabras clave adicionales.
+- Conversión de caracteres como `á`, `ñ` y `ü` para su interpretación dentro de los bloques de código.
 
 Para insertar una sentencia SQL, usa el entorno `lstlisting` e indica el lenguaje:
 
@@ -282,6 +292,14 @@ ORDER BY precio DESC;
 ```
 
 El bloque puede referenciarse desde el texto con `\ref{lst:consulta-productos}`. Usa labels únicos con el prefijo `lst:` para evitar advertencias de referencias duplicadas. También pueden insertarse otros lenguajes compatibles con `listings`, por ejemplo `Python`, `Java`, `C` o `JavaScript`.
+
+Para mostrar una expresión corta con formato de código, usa el comando definido en `config/settings.tex`:
+
+```latex
+\codigo{"Hola mundo"}
+```
+
+Los títulos de los bloques `lstlisting` no muestran una etiqueta automática y utilizan `Nota` como nombre de listado.
 
 Los parámetros visuales activos se encuentran en `config/settings.tex`. Allí también se conservan, comentadas, algunas opciones alternativas como colores para cadenas y comentarios, marcos y ocultamiento de números de línea. Esas opciones no tienen efecto hasta que se descomenten o se incorporen explícitamente a `\lstset`.
 

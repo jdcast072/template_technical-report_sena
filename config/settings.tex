@@ -1,68 +1,73 @@
-% Diseño de border y tabla de contenido
+% Configuración del diseño y la tabla de contenido.
+\usetikzlibrary{calc} % Habilita cálculos de coordenadas en TikZ.
 
-\renewcommand{\familydefault}{\sfdefault} % Hace que la fuente por defecto del texto sea sans-serif
+\renewcommand{\familydefault}{\sfdefault} % Cambia la familia tipográfica predeterminada del documento.
+\input{glyphtounicode}
+\pdfgentounicode=1
 
-\usetikzlibrary{calc} % Facilita cálculos de coordenadas en TikZ.
-
-\hypersetup{hidelinks} % Configura los enlaces y referencias clicables del PDF. Se agrega en documenclass para mayor comodidad
-% Configuración de enlaces para el documento
+\hypersetup{hidelinks} % Oculta la apariencia visual de los enlaces del PDF.
+% Define el comportamiento visual de los enlaces del documento.
 \hypersetup{
-    colorlinks=true,           % Activa/Desactiva el color en los textos de los enlaces en lugar de recuadros
-    citecolor=greenPrimary, % Asigna el color a las citas bibliográficas
-    linkcolor=black,           % Color para enlaces internos (índice, figuras, tablas)
-    urlcolor=black            % Color para los enlaces web (URL)
+        colorlinks=true,           % Aplica el color directamente al texto de los enlaces.
+        citecolor=lineText,        % Controla la apariencia de los enlaces a citas bibliográficas.
+        linkcolor=black,           % Controla la apariencia de los enlaces internos del documento.
+        urlcolor=black             % Controla la apariencia de los enlaces web.
 }
 
-% Relleno de punto para los capítulos en la tabla de contenido.
+% Define el separador de puntos entre los capítulos y sus páginas en la tabla de contenido.
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 
-% Redefinición del formato de \chapter
+
+% Define la estructura visual de los títulos de capítulo.
 \titleformat{\chapter}[hang]
-  {\normalfont\Large\bfseries\filcenter\uppercase} % Formato: 14pt (aprox), negrita, centrado, mayúsculas
-  {\thechapter.} % Imprime solo el número seguido de un punto
-  {1em} % Espacio entre el número y el título
+    {\normalfont\Large\bfseries\filcenter\uppercase} % Establece el estilo tipográfico y la alineación del título.
+    {\thechapter.} % Define la representación del número del capítulo.
+    {1em} % Define la separación entre el número y el título.
   {} 
 
-% Opcional: Ajustar el espaciado antes y después del capítulo
-% LaTeX suele dejar un gran espacio en blanco arriba de los capítulos.
-% Con esto puedes reducir ese margen superior si lo deseas.
+% Define el espacio anterior y posterior a los títulos de capítulo.
 \titlespacing*{\chapter}{0pt}{-30pt}{20pt}
 
-% Enumerar los títulos en un valor positivo
+% Define hasta qué nivel se numeran las secciones.
 \setcounter{secnumdepth}{5}
 
-% Profundidad en la tabla de contenido
+% Define hasta qué nivel aparecen las secciones en la tabla de contenido.
  \setcounter{tocdepth}{5}
 
-% Centrar el título "Índice" y ajustar su tamaño de fuente
+% Define el formato del título de la tabla de contenido.
 \renewcommand{\cfttoctitlefont}{%
-    \hfil         % Centra el texto
-    \bfseries     % Aplica negrilla
-    \Large        % Establece el tamaño de la fuente (puedes usar \LARGE o \huge)
+        \hfil         % Centra el texto del título.
+        \bfseries     % Aplica negrita al título.
+        \Large        % Define el tamaño tipográfico del título.
 }
-\renewcommand{\cftaftertoctitle}{}
+\renewcommand{\cftaftertoctitle}{} % Elimina el contenido posterior al título de la tabla.
 
-% Define el color naranja institucional.
+% Define los colores reutilizables de la plantilla.
 \definecolor{greenPrimary}{RGB}{34,165,94}
-% Define una variante clara del color institucional.
 \definecolor{greenLight}{RGB}{0,0,0}
 
-% Configuración profesional para los títulos de tablas y figuras (opcional)
-\captionsetup[table]{
-    labelsep=newline,        % Salto de línea entre "Tabla X" y el título
-    justification=centering, % Mantiene el centrado que ya tienes
-    labelfont=bf,            % Pone "Tabla X" en negrilla
-    textfont=it              % Pone el título de la tabla en cursiva
-}
+% Define el color usado para los elementos de código.
+\definecolor{lineText}{RGB}{20,120,130}
 
-% Creación de atajos de una sola línea a partir de una sola letra
-% Estos paquetes son necesarios para el funcionamiento de las tablas
+% Convierte el texto dentro del bloque en formato de código
+\newcommand{\codigo}[1]{\colorbox{gray!20}{\textcolor{lineText}{\texttt{#1}}}}
+% ejemplo: \codigo{"Hola mundo"}
+
+% Configuración profesional para los títulos de tablas y figuras (opcional)
+% \captionsetup[table]{
+%     labelsep=newline,        % Salto de línea entre "Tabla X" y el título
+%     justification=centering, % Mantiene el centrado que ya tienes
+%     labelfont=bf,            % Pone "Tabla X" en negrilla
+%     textfont=it              % Pone el título de la tabla en cursiva
+% }
+
+% Define tipos de columna reutilizables para las tablas.
 % \usepackage{tabularx}
 % \usepackage{array}
-\newcolumntype{L}{>{\raggedright\arraybackslash}X}   % L para alinear a la izquierda
-\newcolumntype{C}{>{\centering\arraybackslash}X}     % C para centrar
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}    % R para alinear a la derecha
-\newcommand{\rb}{\\ \hline} % Salto de línea + espacio opcional + línea horizontal
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}   % Alinea el contenido de la columna a la izquierda.
+\newcolumntype{C}{>{\centering\arraybackslash}X}     % Centra el contenido de la columna.
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}    % Alinea el contenido de la columna a la derecha.
+\newcommand{\rb}{\\ \hline} % Inserta un salto de fila y una línea horizontal.
 
 
 \definecolor{notiondark}{RGB}{25,25,25}
@@ -71,30 +76,61 @@
 
 \lstset{
     % =========================================================================
-    % 1. PARÁMETROS ACTIVOS (Asociados al estilo limpio y oscuro de Notion)
+    % 1. PROPIEDADES ACTIVAS
     % =========================================================================
-    backgroundcolor=\color{notiondark},           % Asigna el color de fondo oscuro al bloque de código.
-    basicstyle=\ttfamily\small\color{notiontext}, % Configura la fuente a monoespaciada, tamaño pequeño y color de texto claro.
-    keywordstyle=\color{notionkeyword},         % Aplica un color azulado distintivo a las palabras reservadas del lenguaje.
-    numbers=left,                                 % Muestra los números de línea en el margen izquierdo.
-    frame=none,                                   % Elimina cualquier marco o borde alrededor del bloque de código.
-    xleftmargin=1em,                              % Establece un margen interno izquierdo para separar el texto de la orilla.
-    xrightmargin=1em,                             % Establece un margen interno derecho para equilibrar el espaciado.
-    breaklines=true,                              % Habilita el salto automático de línea si el código es muy largo.
-    sensitive=false
-}                            
+    inputencoding=utf8,
+    showspaces=false,                             % Oculta los espacios del código.
+    showstringspaces=false,                       % Oculta los espacios dentro de las cadenas.
+    backgroundcolor=\color{notiondark},           % Define el fondo de los bloques de código.
+    basicstyle=\ttfamily\small\color{notiontext}, % Define el estilo base del código.
+    keywordstyle=\color{notionkeyword},          % Define el estilo de las palabras reservadas.
+    numbers=none,                                 % Controla la visualización de números de línea.
+    frame=none,                                   % Controla la visualización del marco del bloque.
+    xleftmargin=1em,                              % Define el margen izquierdo del bloque de código.
+    xrightmargin=1em,                             % Define el margen derecho del bloque de código.
+    breaklines=true,                              % Permite dividir automáticamente las líneas extensas.
+    sensitive=false,                              % Ignora la diferencia entre mayúsculas y minúsculas.
+    language=SQL,                                 % Define el lenguaje global por defecto para lstlisting
+    morekeywords={                                % Aplica la gama de colores a la palabras clave agregadas
+        REFERENCES,
+        USE, 
+        DATABASE,
+        ERROR
+    },
+    literate=                                   % Agrega al diccionario letras del español, para evitar errores de interpretación
+        {á}{{\'a}}1
+        {é}{{\'e}}1
+        {í}{{\'i}}1
+        {ó}{{\'o}}1
+        {ú}{{\'u}}1
+        {Á}{{\'A}}1
+        {É}{{\'E}}1
+        {Í}{{\'I}}1
+        {Ó}{{\'O}}1
+        {Ú}{{\'U}}1
+        {ñ}{{\~n}}1
+        {Ñ}{{\~N}}1
+        {ü}{{\"u}}1
+        {Ü}{{\"U}}1
+        {¡}{{!`}}1
+        {¿}{{?`}}1
+}
+% Quitar enumeración automática de los caption de lstlisting (lstset).
+\captionsetup[lstlisting]{
+    labelformat=empty
+}
 
-    
+\renewcommand{\lstlistingname}{Nota}
+
     % =========================================================================
-    % 2. PARÁMETROS INACTIVOS (No se usan en este estilo, pero conservan su definición)
+    % 2. PROPIEDADES INACTIVAS
     % =========================================================================
-    % sensitive=false                              % Hace que el intérprete ignore mayúsculas/minúsculas al detectar palabras clave.
-    % stringstyle=\color{red},                     % Define el color específico para los textos o cadenas de caracteres (strings).
-    % commentstyle=\color{green!60!black},         % Define el color con el que se muestran los comentarios en el código.
-    % frame=single,                                % Dibuja una línea o caja completa alrededor de todo el bloque de código.
-    % numbers=left/none,                                % Muestra los números de las líneas alineados en el margen izquierdo.
-    % rulecolor=\color{gray!40},                   % Define el color del borde exterior (necesario si el frame estuviera activo).
+    % sensitive=false                              % Controla la distinción entre mayúsculas y minúsculas.
+    % stringstyle=\color{red},                    % Define el estilo de las cadenas de texto.
+    % commentstyle=\color{green!60!black},        % Define el estilo de los comentarios del código.
+    % frame=single,                                % Controla la visualización de un marco completo.
+    % numbers=left/none,                           % Controla la posición o ausencia de números de línea.
+    % rulecolor=\color{gray!40},                  % Define la apariencia del borde del marco.
 
-
-% cualquier apellido extraído de las referencias estará en mayúscula
+% Convierte a mayúsculas los apellidos extraídos de las referencias.
 \renewcommand{\mkbibnamefamily}[1]{\MakeUppercase{#1}}

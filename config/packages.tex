@@ -7,7 +7,7 @@
 \usepackage{csquotes} % Gestiona correctamente las comillas.
 \usepackage{graphicx} % Permite insertar y ajustar imágenes y tablas.
 \usepackage{tabularx} % Definir un ancho total para la tabla
-\usepackage{booktabs} % Crea tablas con formato profesional para \toprule, \midrule, \bottomrule.
+\usepackage{booktabs} % (opcional) Crea tablas con formato profesional para \toprule, \midrule, \bottomrule.
 \usepackage{array}    % Necesario para centrar o alinear columnas X
 \usepackage{amsmath} % Añade herramientas para fórmulas matemáticas.
 \usepackage{float} % Forzar la posición estricta de objetos: tablas e imágenes.
@@ -18,7 +18,7 @@
 % Motor de gestión de citas y bibliografía con Biber.
 \usepackage[
     backend=biber,
-    style=numeric,
+    style=ieee, % apa, numeric, ieee
     language=spanish,
     sorting=nty,
     maxcitenames=2
