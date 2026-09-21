@@ -1,7 +1,9 @@
 \chapter{Conclusiones}
-\begin{itemize}
-    \item Se logró diseñar e implementar íntegramente el modelo físico relacional para el sistema de información de Importech S.A., garantizando un control optimizado y eficiente sobre sus operaciones comerciales \supercite{SENA}.
-    \item La aplicación metódica del modelado conceptual y lógico, estructurado hasta la tercera forma normal (3NF), evitó anomalías de actualización y redundancias en los datos \supercite{codd1970relational}.
-    \item El despliegue a través del lenguaje DDL permitió definir una arquitectura robusta, la cual asegura la consistencia de los datos mediante el uso estricto de llaves primarias (\colorbox{gray!20}{\textcolor{lineText}{\texttt{PRIMARY KEY}}}) y foráneas (\colorbox{gray!20}{\textcolor{lineText}{\texttt{FOREIGN KEY}}}) \supercite{silberschatz2020}.
-    \item Las transacciones ejecutadas mediante el lenguaje DML demostraron que la base de datos centraliza los flujos de información de manera estable. Esto confirma que el sistema resultante sirve como una base tecnológica escalable, ideal para facilitar la toma de decisiones estratégicas dentro de la organización.
-\end{itemize}
+
+A partir de las pruebas de validación ejecutadas sobre la base de datos, se establecen las siguientes conclusiones:
+
+\begin{enumerate}
+    \item Se comprobó exitosamente que el diseño físico de la base de datos de Import Tech S.A.S. rechaza cualquier operación DML que vulnere la integridad referencial, protegiendo con rigurosidad las relaciones cardinales entre ventas, clientes, productos y proveedores \supercite{dominguez2021}.
+    \item Se demostró que las restricciones de entidad y de dominio operan como un mecanismo de defensa estructurado ante fallos operativos, garantizando la unicidad de los datos clave y la obligatoriedad de la información \supercite{dominguez2021}.
+    \item Se valida de forma concluyente que la Base de Datos Relacional de Import Tech S.A.S. cumple con los requisitos técnicos de diseño, configurándose como un sistema de almacenamiento seguro, consistente y preparado para controlar la lógica transaccional de la compañía \supercite{cobo2007}.
+\end{enumerate}

@@ -1,21 +1,13 @@
-\chapter{Resultados}
+\chapter{Análisis de Resultados}
 
-La implementación del modelo físico relacional para Importech S.A.S. se ejecutó de manera exitosa en el entorno de desarrollo utilizando el motor de base de datos MySQL \supercite{silberschatz2020}. A partir de la ejecución de los scripts mediante el Lenguaje de Definición de Datos (DDL) y el Lenguaje de Manipulación de Datos (DML), se obtuvieron los siguientes resultados:
+La ejecución de los procedimientos de prueba sobre la RDB de \colorbox{gray!20}{\textcolor{lineText}{\texttt{import\_tech}}} \supercite{suarez2010} generó una serie de bloqueos nativos controlados por el motor MySQL, los cuales evalúan y validan la solidez del modelo físico implementado para Import Tech S.A.S. Al contrastar las sentencias DML anómalas con las respuestas del sistema, se obtuvieron los siguientes resultados definitivos:
 
 \begin{itemize}
-    \item \textbf{Estructuración de la base de datos}: Se crearon satisfactoriamente las tablas normalizadas principales y dependientes correspondientes a categorías, proveedores, clientes, productos, ventas, detalle de venta y tablas de atributos multivaluados para teléfonos. Para cada atributo se asignaron de manera óptima los tipos de datos requeridos, tales como \colorbox{gray!20}{\textcolor{lineText}{\texttt{VARCHAR}}} y \colorbox{gray!20}{\textcolor{lineText}{\texttt{DECIMAL}}}.
+    \item \textbf{Validación de Integridad Referencial:} El sistema arrojó el \textbf{Error 1452} al intentar registrar transacciones con dependencias inexistentes (un detalle de venta sin producto y una venta vinculada a un cliente no registrado). Este resultado demuestra que las restricciones \colorbox{gray!20}{\textcolor{lineText}{\texttt{FOREIGN KEY}}} actúan correctamente, impidiendo la creación de datos huérfanos y garantizando la coherencia de las dependencias comerciales.
     
-    \item \textbf{Consolidación de la integridad referencial}: Mediante la instrucción \colorbox{gray!20}{\textcolor{lineText}{\texttt{ALTER}}}, se establecieron las relaciones lógicas de cardinalidad (1:N y N:M) a través de llaves foráneas \supercite{codd1970relational}, interconectando las entidades de ventas con clientes, los productos con sus respectivas categorías y proveedores, y las tablas intermedias.
-    
-    \item \textbf{Validación transaccional}: La inserción de registros base permitió simular un entorno operativo real de facturación y control de inventario \supercite{SENA}. Las pruebas realizadas mediante sentencias \colorbox{gray!20}{\textcolor{lineText}{\texttt{SELECT}}} (como el cálculo del ingreso total o el precio promedio), junto con las operaciones de actualización (\colorbox{gray!20}{\textcolor{lineText}{\texttt{UPDATE}}}) y eliminación (\colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}}), verificaron el correcto cumplimiento de las reglas del negocio.
-\end{itemize}
+    \item \textbf{Validación de Integridad de Entidad:} La aparición del \textbf{Error 1062} ante los intentos de duplicar la llave primaria en la tabla \colorbox{gray!20}{\textcolor{lineText}{\texttt{categoria}}} y los atributos únicos (\colorbox{gray!20}{\textcolor{lineText}{\texttt{NIT}}} y \colorbox{gray!20}{\textcolor{lineText}{\texttt{NIP}}}) en la tabla \colorbox{gray!20}{\textcolor{lineText}{\texttt{proveedor}}}, certifica que el sistema respeta el principio de unicidad, imposibilitando la duplicidad de registros en el catálogo.
 
-% Inserción del diagrama ajustado para no desbordar verticalmente y ser legible
-\begin{center}
-    \vspace{0.3cm}
-    % Se define un ancho mayor para legibilidad, pero se limita la altura al 40% de la página
-    \includegraphics[width=0.85\textwidth, height=0.40\textheight, keepaspectratio]{assets/images/EER-import_tech.png}
-    
-    \vspace{0.2cm}
-    \fontsize{10}{12}\selectfont \textit{Figura 1. Modelo Relacional definitivo con Ing. Inversa de EER de Importech S.A.S.}
-\end{center}
+    \item \textbf{Validación de Integridad de Dominio:} El bloqueo de la transacción evidenciado mediante el \textbf{Error 1048} al omitir un campo obligatorio, confirma que las cláusulas \colorbox{gray!20}{\textcolor{lineText}{\texttt{NOT NULL}}} son efectivas. El motor exige estrictamente la completitud de la información crítica (como asociar la categoría a un producto) antes de procesar el guardado.
+
+    \item \textbf{Validación de Restricción de Eliminación:} Al ejecutar operaciones \colorbox{gray!20}{\textcolor{lineText}{\texttt{DELETE}}} sobre categorías y proveedores que ya poseían productos asociados, el motor emitió el \textbf{Error 1451}. Este bloqueo es vital, ya que confirma que la base de datos protege de manera proactiva los registros padre, evitando que los productos del inventario queden sin una referencia hacia su distribuidor o clasificación.
+\end{itemize}

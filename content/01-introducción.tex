@@ -1,13 +1,13 @@
 \chapter{Introducción}
-En el entorno empresarial las empresas comercializadoras de productos tecnológicos requieren sistemas eficientes que garanticen la disponibilidad y el control de sus operaciones. Importech S.A.S., es una organización con trayectoria en la distribución de computadoras, partes y suministros, ha experimentado un incremento significativo en su actividad comercial, lo que evidenció la necesidad de optimizar la gestión integral de sus procesos de ventas, clientes, proveedores y existencias en stock.
+La fiabilidad de un sistema de información depende fundamentalmente de la solidez de su base de datos frente a errores humanos o lógicos. Para la comercializadora Impor Tech S.A.S., con su alto volumen de transacciones diarias en ventas y control de inventarios se debe realizar varias pruebas técnicas y escenarios de estrés y fallos intencionales. El presente documento expondrá las pruebas de validación aplicadas al esquema relacional de la compañía para asegurar la calidad de la información.
 
 \section{Objetivos del Trabajo}
 \begin{itemize}
-    \item \textbf{Objetivo General}: Diseñar e implementar el modelo físico relacional para el nuevo sistema de información de Importech S.A. mediante el uso de sentencias SQL (DDL y DML), garantizando la integridad y consistencia transaccional.
+    \item \textbf{Objetivo General}: Validar el diseño y el correcto funcionamiento del modelo de base de datos de Import Tech S.A.S. mediante la ejecución de pruebas de integridad de datos y restricciones relacionales.
     \item \textbf{Objetivo Específicos}:
         \begin{enumerate}
-            \item Estructurar las tablas normalizadas del sistema (categorías, proveedores, clientes, productos, ventas y detalles) aplicando restricciones de integridad referencial (\colorbox{gray!20}{\textcolor{lineText}{\texttt{PRIMARY KEY}}} y \colorbox{gray!20}{\textcolor{lineText}{\texttt{FOREIGN KEY}}}).
-            \item Ejecutar sentencias de manipulación de datos (DML) para poblar los registros base y simular operaciones transaccionales de control de inventario y facturación.
-            \item Validar el funcionamiento del modelo mediante consultas estructuradas que verifiquen el cumplimiento de las reglas del negocio de la compañía.
+            \item Ejecutar sentencias SQL que reten las restricciones de integridad de entidad (\colorbox{gray!20}{\textcolor{lineText}{\texttt{PRIMARY KEY}}}) e integridad de dominio (\colorbox{gray!20}{\textcolor{lineText}{\texttt{NOT NULL}}}).   
+            \item Comprobar la integridad referencial intentando vulnerar las relaciones de llaves foráneas (\colorbox{gray!20}{\textcolor{lineText}{\texttt{FOREIGN KEY}}}) entre entidades dependientes e independientes.
+            \item Documentar la respuesta de la base de datos para certificar la consistencia transaccional del sistema.
         \end{enumerate}
 \end{itemize}

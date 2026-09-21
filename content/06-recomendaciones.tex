@@ -1,0 +1,8 @@
+\chapter{Recomendaciones}
+
+\begin{enumerate}
+    \item Implementar disparadores (Triggers) a nivel de base de datos que automaticen validaciones más complejas, como generar alertas o bloqueos personalizados cuando el stock de un producto sea insuficiente durante la inserción de un nuevo detalle de venta
+    \item Establecer un protocolo de manejo de excepciones en la futura capa de aplicación (Backend), de forma que, cuando la base de datos bloquee una operación por violación de integridad, el usuario del sistema reciba un mensaje amigable y claro en lugar del código de error nativo del motor SQL.
+    \item Realizar auditorías periódicas y pruebas de estrés sobre la base de datos a medida que el catálogo de productos de Import Tech S.A.S. crezca, para garantizar que las validaciones de restricciones no afecten el rendimiento de las consultas
+    \item \textbf{Manejo de Excepciones en Capa de Aplicación:} Dado que la base de datos emite códigos de error nativos (como el Error 1452 o 1062) para proteger la información, se recomienda desarrollar un protocolo de manejo de excepciones en la interfaz gráfica del usuario (Frontend) que traduzca estos bloqueos de MySQL en alertas amigables y legibles para los empleados.
+\end{enumerate}
