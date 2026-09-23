@@ -74,6 +74,19 @@
 \definecolor{notionkeyword}{RGB}{90,140,210}
 \definecolor{notiontext}{RGB}{220,220,220}
 
+\lstdefinelanguage{JavaScript}{
+    keywords={const, let, var, function, return, if, else, for, while, async, await, new, class, try, catch, throw, path, Math, console, use, db, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany, find, sort, limit, require, process, env, $lt, $gt, $lte, $gte, $eq, $ne, $in, $nin, $and, $or, $exists, $set},
+    keywordstyle=\bfseries,
+    ndkeywords={true, false, null, undefined},
+    ndkeywordstyle=\bfseries,
+    sensitive=true,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]",
+    keywordstyle=\color{notionkeyword},          % Define el estilo de las palabras reservadas.
+    morestring=[b]'
+}
+
 \lstset{
     % =========================================================================
     % 1. PROPIEDADES ACTIVAS
@@ -83,20 +96,14 @@
     showstringspaces=false,                       % Oculta los espacios dentro de las cadenas.
     backgroundcolor=\color{notiondark},           % Define el fondo de los bloques de código.
     basicstyle=\ttfamily\small\color{notiontext}, % Define el estilo base del código.
-    keywordstyle=\color{notionkeyword},          % Define el estilo de las palabras reservadas.
     numbers=none,                                 % Controla la visualización de números de línea.
     frame=none,                                   % Controla la visualización del marco del bloque.
     xleftmargin=1em,                              % Define el margen izquierdo del bloque de código.
     xrightmargin=1em,                             % Define el margen derecho del bloque de código.
     breaklines=true,                              % Permite dividir automáticamente las líneas extensas.
     sensitive=false,                              % Ignora la diferencia entre mayúsculas y minúsculas.
-    language=SQL,                                 % Define el lenguaje global por defecto para lstlisting
-    morekeywords={                                % Aplica la gama de colores a la palabras clave agregadas
-        REFERENCES,
-        USE, 
-        DATABASE,
-        ERROR
-    },
+    language=JavaScript,                                 % Define el lenguaje global por defecto para lstlisting
+    morekeywords={DB_USER,DB_PASSWORD,npm},
     literate=                                   % Agrega al diccionario letras del español, para evitar errores de interpretación
         {á}{{\'a}}1
         {é}{{\'e}}1

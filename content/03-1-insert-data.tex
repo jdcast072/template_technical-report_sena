@@ -1,0 +1,29 @@
+\section{Preparación del Entorno del Taller de Desarrollo}
+\begin{itemize}
+    \item \codigo{mongodb}: Conexión, acceso e inserción de colecciones, campos y documentos enlazada con la base de datos situada en \textbf{MongoDB Atlas}.
+    \begin{itemize}
+        \item Se agrega la siguiente línea de código en \codigo{packages.json} para evitar vulnerabilidad.
+        Esta configuración reemplaza la dependencia original por una versión mantenida del paquete \codigo{xlsx}.
+        \begin{lstlisting}[language={JavaScript}]
+"xlsx": "npm:@keep-lts/xlsx@^0.18.6"
+        \end{lstlisting}    
+    \end{itemize}
+    \item \codigo{xlsx} para la lectura de las tablas y registros para la conversión a formato \codigo{JSON}.
+    \begin{itemize}
+    \item Se instalan los paquetes mencionados en el entorno local:
+        El siguiente comando instala las dependencias necesarias para conectarse a MongoDB y leer archivos de Excel.
+        \begin{lstlisting}
+npm install xlsx mongodb
+        \end{lstlisting} 
+    \end{itemize}
+\end{itemize}
+
+Además, se usaron variables de entorno (\codigo{dotenv}) para proteger las credenciales y otros datos sensibles dentro del archivo \codigo{.env}.
+El bloque muestra los nombres de las variables que utiliza la aplicación para establecer la conexión.
+Por último, se genera el script automatizado para la creación e inserción de datos por medio del lenguaje de programación de \codigo{JavaScript} que se encuentra en el siguiente link
+\begin{lstlisting}
+DB_USER=usuario
+DB_PASSWORD=password
+\end{lstlisting}
+
+
