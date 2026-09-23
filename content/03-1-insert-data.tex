@@ -20,10 +20,12 @@ npm install xlsx mongodb
 
 Además, se usaron variables de entorno (\codigo{dotenv}) para proteger las credenciales y otros datos sensibles dentro del archivo \codigo{.env}.
 El bloque muestra los nombres de las variables que utiliza la aplicación para establecer la conexión.
-Por último, se genera el script automatizado para la creación e inserción de datos por medio del lenguaje de programación de \codigo{JavaScript} que se encuentra en el siguiente link
 \begin{lstlisting}
 DB_USER=usuario
 DB_PASSWORD=password
 \end{lstlisting}
 
+Por último, se genera el script automatizado para convertir el archivo \href{https://github.com/jdcast072/template_technical-report_sena/blob/6fa21db535fab5efcd2e3cbc768ae994037af95f/others/Datafile.xlsx}{\codigo{\underline{Datafile.xlsx}}} en formato \codigo{JSON} para la creación de la base de datos e inserción de los documentos junto con sus campos por medio del lenguaje de programación de \codigo{JavaScript}.
+
+El repositorio del script que se encuentra en el siguiente link \href{https://github.com/jdcast072/template_technical-report_sena/blob/6fa21db535fab5efcd2e3cbc768ae994037af95f/others/import-excel.js}{\codigo{\underline{import-excel.js}}}
 
