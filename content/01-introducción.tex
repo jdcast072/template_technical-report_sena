@@ -1,2 +1,17 @@
 \chapter{Introducción}
-se requiere construir un sistema de almacenamiento documental que resuelva un problema propuesto relacionado con la FIFA. Este informe detalla el proceso de la creación de los scripts desarrollados en la creación de colecciones, campos y construcción de consultas para la extracción y manipulación de datos.
+
+En el ámbito de la comercialización de equipos tecnológicos, el control de inventario representa un desafío a nivel de almacenamiento de datos. Un catálogo tecnológico posee artículos con especificaciones divergentes; por ejemplo, un portátil requiere campos de procesador y RAM, mientras que un periférico requiere longitud de cable y tipo de conexión. Un esquema relacional tradicional resulta ineficiente ante esta variabilidad. 
+
+Para resolver esta problemática, el presente proyecto documenta la creación de un sistema backend basado en \codigo{\textbf{Node.js}} y \codigo{\textbf{MongoDB}}. La flexibilidad de los documentos BSON, combinada con herramientas de middleware modernas, permite construir una solución escalable y segura.
+
+\section{Objetivo General}
+Desarrollar e implementar una API RESTful escalable y modular utilizando Node.js y MongoDB para la gestión dinámica del inventario tecnológico de Revival Tech, permitiendo el almacenamiento de atributos variables mediante un modelo NoSQL orientado a documentos.
+
+\section{Objetivos Específicos}
+\begin{itemize}
+    \item \textbf{Modelar los datos:} Definir esquemas documentales flexibles e implementar la conexión a la base de datos utilizando \codigo{\textbf{Mongoose}}.
+    \item \textbf{Procesar solicitudes HTTP:} Configurar el servidor y las rutas del sistema utilizando \codigo{\textbf{Express}} y \codigo{\textbf{body-parser}} para extraer e interpretar los objetos JSON enviados por los clientes.
+    \item \textbf{Monitorear la actividad:} Implementar \codigo{\textbf{morgan}} como middleware para llevar un registro detallado en consola de las peticiones entrantes, facilitando el proceso de depuración.
+    \item \textbf{Proteger la información sensible:} Asegurar las credenciales de conexión al clúster y puertos del servidor aislando dichas variables a través de \codigo{\textbf{dotenv}}.
+    \item \textbf{Ejecutar operaciones CRUD:} Codificar controladores funcionales para la creación, lectura, actualización y eliminación de categorías y productos del inventario.
+\end{itemize}

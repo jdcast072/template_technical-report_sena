@@ -1,0 +1,469 @@
+\chapter{Procedimientos de Implementación}
+La arquitectura de la API se estructuró separando responsabilidades lógicas (Controladores, Modelos y Rutas). A continuación, se detalla la integración de las tecnologías mencionadas y los espacios para su respectiva evidencia en código.
+
+\section{Diseño del Esquema de Base de Datos}
+A continuación se presenta el modelo orientado a documentos diseñado para el sistema de inventario, donde se evidencia la relación por referencia entre los productos y sus respectivas categorías, así como la estructura flexible para las especificaciones técnicas:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{assets/images/inventario-revival-tech_02_10_2026.png}
+  \caption{Modelo de base de datos para el inventario de TechStore (Productos, Categorías y Contador).}
+  \label{fig:modelo-inventario}
+\end{figure}
+
+La parte de \codigo{Contador} sirve como un identificador que se usó como identicador de \codigo{\textbf{codigo}} como valor único e incremental para la colección de \codigo{\textbf{Categoria}} de \codigo{\textquotedbl CAT-\#\#\#\textquotedbl} (ej. \textquotedbl{}CAT-001\textquotedbl{}).
+
+\section{Configuración del Servidor y Middlewares}
+El punto de entrada de la aplicación gestiona la inicialización de \textbf{Express}. En esta etapa se integró \textbf{dotenv} para cargar la variable \codigo{MONGODB\_URI} de forma segura. Asimismo, se inyectaron los middlewares globales: \textbf{morgan} en modo de desarrollo para registrar los verbos HTTP y tiempos de respuesta, y \textbf{body-parser} (o el parser integrado de Express) para garantizar que el \codigo{req.body} esté disponible en formato JSON estructurado.
+
+\begin{lstlisting}[caption={Archivo principal de configuración del servidor (server.js)}]
+// Importa  módulo para las rutas de archivos, vars entorno y DNS
+const dns = require('node:dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+const path = require("node:path");
+require("dotenv").config({
+    path: path.resolve(__dirname, ".env")
+});
+// Importar módulos para la API, conexión DB, logs y formato JSON
+const express = require('express');
+const  mongoose  = require('mongoose');
+const  morgan  = require('morgan');
+const  bodyParser  = require('body-parser');
+
+// Importar rutas de producto y categoria
+const productoRoute = require('./routes/producto-router')
+const categoriaRoute = require('./routes/categoria-router')
+
+
+// Credenciales apuntando a la variable de entorno
+const user = process.env.DB_USER;
+const password = process.env.DB_PASSWORD;
+const uri = `mongodb+srv://${user}:${password}@cluster0.exouyu8.mongodb.net/?appName=Cluster0`
+
+const PORT = process.env.API_PORT || 3000;
+
+const app = express() // Declara la variable app como método express()
+// registro de códigos de estado 4xx y 5xx
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended : true}))
+app.use(bodyParser.json());
+
+app.use('/api/producto', productoRoute);
+app.use('/api/categoria', categoriaRoute);
+
+app.listen(PORT, () => {
+    console.log(`Conexión exitosa. Servidor en ejecución bajo el puerto: ${PORT}/`);
+})
+
+mongoose.connect(uri, { dbName: 'inventario'});
+const database = mongoose.connection;
+// 
+database.once('open', () => {
+    console.log('Conexión exitosa al clúster DB')
+    console.log(`API: http://localhost:${PORT}/api/`)
+});
+database.on('error', (err) => console.log(`Error de conexión de a la base de datos ${err}`));
+\end{lstlisting}
+
+\section{Modelado de la Base de Datos NoSQL}
+Para interactuar con MongoDB Atlas, se utilizó \textbf{Mongoose}. Este Object Data Modeling (ODM) permitió definir reglas estrictas para datos cruciales (como el nombre y el precio), al mismo tiempo que habilitó el uso del tipo de dato \codigo{Mixed} para absorber las especificaciones técnicas variables (RAM, almacenamiento, tipo de conexión) sin romper el esquema.
+
+\begin{lstlisting}[caption={Modelo de Mongoose para la colección de Productos (models/Producto.js)}]
+// [INSERTE AQUI EL CODIGO DEL ESQUEMA DEL PRODUCTO (MONGOOSE)]
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Modelo de Mongoose para la colección de Categoria (models/Categoria.js)}]
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const categoriaSchama = new Schema(
+  {
+    nombre: {
+      type: String,
+      required: true,
+    },
+    descripcion: {
+      type: String,
+      required: false,
+    },
+    codigo: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /^CAT-\d{3,}$/,
+    },
+  },
+  { timestamps: true },
+);
+
+const categoria = mongoose.model("categoria", categoriaSchama);
+module.exports = categoria;
+\end{lstlisting}
+\begin{lstlisting}[caption={Modelo de Mongoose para la colección de Contador (models/Contador.js)}]
+const mongoose = require ('mongoose');
+const { Schema } = mongoose;
+
+const contadorSchema = new Schema({
+  _id: String,
+  secuencia: { type: Number, default: 0 }
+});
+
+module.exports = mongoose.model('Contador', contadorSchema, 'contador');
+\end{lstlisting}
+
+\section{Controladores y Rutas}
+La lógica de negocio reside en los controladores, los cuales procesan la petición una vez que \textbf{body-parser} ha parseado el cuerpo del mensaje. Estos controladores ejecutan métodos asíncronos de \textbf{Mongoose} (\codigo{\textbf{find}}, \codigo{\textbf{save}}, \codigo{\textbf{findByIdAndUpdate}}) para retornar respuestas estandarizadas al cliente.
+
+\begin{lstlisting}[caption={Controlador de Producto (controllers/producto-controller.js)}]
+const mongoose = require("mongoose");
+const Producto = require("../models/producto");
+
+// Consulta método HTTP
+// Consultar todos los Producto
+const mostrarProductos = (req,res) => {
+  Producto.find()
+    .then((response) => res.json({ response }))
+    .catch((error) =>
+      res.status(500).json({ message: `Error al consultar productos: ${error}` }),
+    );
+};
+
+// Consultar producto por el ID Body JSON
+const verProductoIDBody = (req,res,next) => {
+  const productoID = req.body.productoID;
+  Producto.findById(productoID)
+  .then(response => {
+    if (!response) {
+      return res.status(404).res.json({message: 'Producto no encontrado'});
+    }
+    res.json({response})
+  })
+  .catch(error => res.json({message: `ID del producto inválido: ${error}` }));
+}
+
+// Consultar producto por el ID URI
+const verProductoIDUri = (req, res) => {
+  const productoID = req.params.id;
+  if (!mongoose.isObjectIdOrHexString(productoID)) {
+    return res.status(400).json({ message: "ID del producto inválido" });
+  }
+
+  Producto.findById(productoID)
+    .then((response) => {
+      if (!response) {
+        return res.status(404).json({ message: "ID del producto inválido" });
+      }
+      return res.json({ response });
+    })
+    .catch((error) =>
+      res.status(500).json({ message: `Error al consultar producto: ${error}` }),
+    );
+};
+
+// Agregar producto
+const agregarProducto = async (req, res) => {
+  try {
+    const { nombre, precio, stock, categoria_id, espec } = req.body;
+    const nuevoProducto = new Producto({
+      nombre,
+      precio,
+      stock,
+      categoria_id,
+      espec,
+    });
+    await nuevoProducto.save();
+    res.status(201).json({
+      mensaje: "Producto creado con éxito",
+      datos: nuevoProducto,
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Error: ${error}` });
+  }
+};
+
+// Actualizar producto
+const actualizarProducto = (req, res, next) => {
+  const productoID = req.body.productoID;
+  if (!mongoose.isObjectIdOrHexString(productoID)) {
+    return res.status(400).json({ message: "ID de producto invalido" });
+  }
+
+  const { nombre, precio, stock, categoria_id, espec } = req.body;
+  const modProducto = {
+    nombre,
+    precio,
+    stock,
+    categoria_id,
+    espec
+  };
+
+  Producto.findByIdAndUpdate(
+    productoID,
+    { $set: modProducto },
+    { new: true, runValidators: true },
+  )
+    .then((response) => {
+      if (!response) {
+        return res.status(404).json({ message: "Producto no encontrado" });
+      }
+      return res.json({ response });
+    })
+    .catch((error) =>
+      res.status(500).json({ message: `Error al actualizar producto: ${error}` }),
+    );
+};
+
+// Eliminar producto
+const eliminarProducto = (req, res, next) =>{
+  const productoID = req.body.productoID;
+  if (!mongoose.isObjectIdOrHexString(productoID)) {
+    return res.status(400).json({ message: "ID de producto invalido" });
+  }
+
+  Producto.findByIdAndDelete(productoID)
+  .then((response) => {
+    if (!response) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+    return res.json({ response });
+  })
+  .catch((error) =>
+    res.status(500).json({ message: `Error al eliminar producto: ${error}` }),
+  );
+}
+
+module.exports = {
+    agregarProducto,
+    mostrarProductos,
+    verProductoIDUri,
+    verProductoIDBody,
+    actualizarProducto,
+    eliminarProducto
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Rutas de Producto (routes/producto-router.js)}]
+const express = require('express');
+const router = express.Router();
+
+const productoController = require('../controllers/producto-controller');
+
+router.get('/',productoController.mostrarProductos);
+router.post('/insert',productoController.agregarProducto);
+router.post('/body',productoController.verProductoIDBody);
+router.get('/uri/:id',productoController.verProductoIDUri);
+router.put('/update',productoController.actualizarProducto);
+router.delete('/delete',productoController.eliminarProducto);
+
+module.exports = router;
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Controlador de Categoría (controllers/categoria-controller.js)}]
+const mongoose = require("mongoose");
+const Categoria = require("../models/categoria");
+const Contador = require("../models/contador");
+
+const mostrarCategorias = (req, res) => {
+  Categoria.find()
+    .then((response) => res.json(response ))
+    .catch((error) =>
+      res.status(500).json({ message: `Error al consultar categorias: ${error}` }),
+    );
+};
+
+//Consultar categoria por ID Body JSON
+const verCategoriaIDBody = (req, res) => {
+  const categoriaID = req.body.categoriaID;
+  Categoria.findById(categoriaID)
+  .then(response => {
+    if (!response) {
+      res.status(404).res.json({message: 'Categoría no encontrada'});
+    }
+    res.json({response})
+  })
+  .catch( error => res.json({message: `Error a consultar categoria: ${error}`}))
+}
+
+// Consultar categoria por ID URL
+const verCategoriaIDUri = (req, res) => {
+  const categoriaID = req.params.id;
+  if (!mongoose.isObjectIdOrHexString(categoriaID)) {
+    return res.status(400).json({ message: "ID de categoria invalido" });
+  }
+
+  Categoria.findById(categoriaID)
+    .then((response) => {
+      if (!response) {
+        return res.status(404).json({ message: "Categoria no encontrada" });
+      }
+      return res.json({ response });
+    })
+    .catch((error) =>
+      res.status(500).json({ message: `Error al consultar categoria: ${error}` }),
+    );
+};
+
+// Agregar categoria
+const agregarCategoria = async (req, res) => {
+  try {
+    const contador = await Contador.findOneAndUpdate(
+      { _id: "categoria" },
+      { $inc: { secuencia: 1 } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    );
+
+    const codigo = `CAT-${String(contador.secuencia).padStart(3, "0")}`;
+    const { nombre, descripcion } = req.body;
+    const nuevaCategoria = new Categoria({
+      nombre,
+      descripcion,
+      codigo
+    });
+    await nuevaCategoria.save();
+    res.status(201).json({
+      mensaje: "Categoria creada con éxito",
+      datos: nuevaCategoria,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error al agregar nueva categoria: ${error}` });
+  }
+};
+// Actualizar categoria
+const actualizarCategoria = (req, res, next) => {
+  const { categoriaID, nombre, descripcion } = req.body;
+  const modCategoria = {
+    nombre,
+    descripcion
+  };
+  Categoria.findByIdAndUpdate(categoriaID, { $set: modCategoria }, { new: true, runValidators: true })
+    .then((response) => {
+      if(!response){
+        return res.status(404).json({message: 'categoria no encontrada'});
+      }
+      res.json({ response });
+
+    })
+    .catch((error) =>
+      res.status(500).json({ message: `Error al actualizar categoria: ${error}` })
+    );
+  
+};
+
+// Eliminar categoria
+const eliminarCategoria = (req, res, next) => {
+  const categoriaID = req.body.categoriaID;
+  if (!mongoose.isObjectIdOrHexString(categoriaID)) {
+    return res.status(400).json({ message: "ID de categoria invalido" });
+  }
+
+  Categoria.findByIdAndDelete(categoriaID)
+    .then((response) => {
+      if (!response) {
+        return res.status(404).json({ message: "Categoria no encontrada" });
+      }
+      return res.json({ response });
+    })
+    .catch((error) =>
+      res.status(500).json({ message: `Error al eliminar categoria: ${error}` }),
+    );
+};
+
+module.exports = {
+  agregarCategoria,
+  mostrarCategorias,
+  verCategoriaIDUri,
+  verCategoriaIDBody,
+  actualizarCategoria,
+  eliminarCategoria,
+};
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Rutas de Categoría (routes/categoria-router.js)}]
+const express = require('express');
+const router = express.Router();
+
+const categoriaController = require('../controllers/categoria-controller');
+
+router.get('/',categoriaController.mostrarCategorias);
+router.post('/insert',categoriaController.agregarCategoria);
+router.post('/body',categoriaController.verCategoriaIDBody);
+router.get('/uri/:id',categoriaController.verCategoriaIDUri);
+router.put('/update',categoriaController.actualizarCategoria);
+router.delete('/delete',categoriaController.eliminarCategoria);
+
+module.exports = router;
+\end{lstlisting}
+
+\section{Pruebas y Evidencia de Ejecución (Comandos MongoDB Atlas)}
+Para verificar la correcta recepción de datos y el funcionamiento íntegro de la base de datos, se ejecutaron pruebas de peticiones HTTP, las cuales fueron debidamente monitoreadas por \textbf{morgan} en la terminal y confirmadas en el cliente REST (Postman) y en el gestor de base de datos (MongoDB Compass/Atlas).
+
+\begin{enumerate}
+    \item \textbf{Evidencias de las operaciones con categorías}
+    \begin{itemize}
+        \item \textbf{GET: listar categorías.} Consulta todas las categorías registradas y muestra sus datos, como nombre, descripción y código.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-get-all.png}
+        \end{center}
+
+        \item \textbf{GET: consultar una categoría por URI.} Recupera una categoría específica a partir de su identificador incluido en la URL.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-get-id.png}
+        \end{center}
+
+        \item \textbf{POST: crear una categoría.} Envía el nombre y la descripción en formato JSON; la respuesta confirma la creación y presenta el código asignado.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-insert.png}
+        \end{center}
+
+        \item \textbf{POST: consultar una categoría por ID en el cuerpo.} Envía \codigo{categoriaID} en el cuerpo JSON y recibe los datos de la categoría encontrada.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-post-id.png}
+        \end{center}
+
+        \item \textbf{PUT: actualizar una categoría.} Envía el identificador y los campos editados; la respuesta muestra la categoría actualizada.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-put.png}
+        \end{center}
+
+        \item \textbf{DELETE: eliminar una categoría.} Envía \codigo{categoriaID} en el cuerpo JSON y muestra el registro eliminado como confirmación.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/categoria/categoria-delete.png}
+        \end{center}
+    \end{itemize}
+
+    \item \textbf{Evidencias de las operaciones con productos}
+    \begin{itemize}
+        \item \textbf{GET: listar productos.} Consulta los productos registrados, incluyendo su precio, existencias, categoría y especificaciones variables.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-get-all.png}
+        \end{center}
+
+        \item \textbf{POST: crear productos.} Envía los datos del producto y sus especificaciones en formato JSON; las respuestas confirman la creación de los registros.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-insert.png}
+        \end{center}
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-insert-1.png}
+        \end{center}
+
+        \item \textbf{POST: consultar un producto por ID en el cuerpo.} Envía \codigo{productoID} en el cuerpo JSON y obtiene los datos del producto correspondiente.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-post-id.png}
+        \end{center}
+
+        \item \textbf{PUT: actualizar un producto.} La evidencia muestra la solicitud y respuesta antes y después de modificar sus campos, como precio y existencias.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-put-antes.png}
+        \end{center}
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-put-despues.png}
+        \end{center}
+
+        \item \textbf{DELETE: eliminar un producto.} Envía \codigo{productoID} en el cuerpo JSON y presenta el registro eliminado en la respuesta.
+        \begin{center}
+            \includegraphics[width=0.9\linewidth]{assets/images/producto/producto-delete.png}
+        \end{center}
+    \end{itemize}
+\end{enumerate}
